@@ -1,3 +1,4 @@
+import React from "react";
 import {
   View,
   Text,
@@ -10,7 +11,7 @@ import {
 export const RegistrationScreen = () => {
   return (
     <View style={styles.container}>
-        <Image style={styles.image} source={require("./image/AddPhoto.png")}/>
+      <Image style={styles.image} source={require("./image/AddPhoto.png")} />
       <Text style={styles.text}>Реєстрація</Text>
       <TextInput style={styles.input} placeholder={"Логін"} />
       <TextInput
@@ -18,10 +19,10 @@ export const RegistrationScreen = () => {
         placeholder={"Адреса електронної пошти"}
       />
       <TextInput style={styles.input} placeholder={"Пароль"} />
-      <TouchableOpacity style={styles.btn}>
+      <TouchableOpacity style={styles.btn} onPress={() => addHandler(text)}>
         <Text style={styles.textBtn}>Зареєструватися</Text>
       </TouchableOpacity>
-      <Text>Вже є акаунт? Увійти</Text>
+      <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
     </View>
   );
 };
@@ -42,18 +43,18 @@ const styles = StyleSheet.create({
   input: {
     padding: 16,
     marginTop: 10,
-    // borderWidth: 1,
     borderColor: "#C0C0C0",
-    backgroundColor: '#E8E8E8',
+    backgroundColor: "#E8E8E8",
     width: 343,
     height: 50,
     borderRadius: 10,
   },
   text: {
     marginBottom: 30,
-    fontWeight: 500,
+    // fontWeight: 500,
     fontSize: 30,
     marginTop: 100,
+    fontFamily: 'Inter-Black',
   },
   btn: {
     marginTop: 30,
@@ -75,10 +76,13 @@ const styles = StyleSheet.create({
     width: 132,
     height: 120,
     borderRadius: 16,
-    // borderWidth: 1,
-    // backgroundColor: '#E8E8E8',
-    position: 'absolute',
+    position: "absolute",
     top: -60,
-
-}
+  },
+  textLogin: {
+    color: "#1B4371",
+    fontSize: 16,
+    textAlign: "center",
+    fontFamily: 'Inter-Black',
+  },
 });
