@@ -19,7 +19,7 @@ export const RegistrationScreen = () => {
         placeholder={"Адреса електронної пошти"}
       />
       <TextInput style={styles.input} placeholder={"Пароль"} />
-      <TouchableOpacity style={styles.btn} onPress={() => addHandler(text)}>
+      <TouchableOpacity style={styles.btn} >
         <Text style={styles.textBtn}>Зареєструватися</Text>
       </TouchableOpacity>
       <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
@@ -42,19 +42,22 @@ const styles = StyleSheet.create({
   },
   input: {
     padding: 16,
-    marginTop: 10,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#E8E8E8",
+    marginTop: 15,
+    borderColor: "#F6F6F6",
+    backgroundColor: "#F6F6F6",
+    borderWidth: 1,
     width: 343,
     height: 50,
     borderRadius: 10,
   },
   text: {
     marginBottom: 30,
-    // fontWeight: 500,
+    fontWeight: 500,
     fontSize: 30,
     marginTop: 100,
     fontFamily: 'Inter-Black',
+    lineHeight: 35,
+    
   },
   btn: {
     marginTop: 30,
@@ -84,5 +87,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     fontFamily: 'Inter-Black',
+    lineHeight: 19
   },
 });
