@@ -6,77 +6,89 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-//   KeyboardAvoidingView,
-//   TouchableWithoutFeedback,
-//   Keyboard,
+  KeyboardAvoidingView,
+  Keyboard,
   Platform,
 } from "react-native";
 
+const initialState = {
+    login: '',
+    email: '',
+    password: '',
+}
 
 export const RegistrationScreen = () => {
-    const [text, setText] = useState("");
     const [isShowKeybord, setIsShowKeybord] = useState(false);
+    const [state, setState] = useState(initialState);
 
+    const keybordHide = () => {
+        setIsShowKeybord(false);
+        Keyboard.dismiss();
+        console.log(state);
+        setState(initialState);
+    }
 
   return (
-    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        // <KeyboardAvoidingView 
-        // behavior={Platform.OS == "ios" ? "padding" : "height"}>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+    
     <View style={{
             ...styles.container,
             marginBottom: isShowKeybord ? 20 : 100,
           }}>
       <Image style={styles.image} source={require("./image/AddPhoto.png")} />
       <Text style={styles.text}>Реєстрація</Text>
-      
+    
       <TextInput 
       style={styles.input} 
       placeholder={"Логін"} 
-      value={text.login}
-      onChangeText={setText}
-      name="login"
+      value={state.login}
+      onChangeText={(value) => setState((prevState) => ({...prevState, login: value}))}
       onFocus={() => setIsShowKeybord(true)}
    
       />
       <TextInput
         style={styles.input}
         placeholder={"Адреса електронної пошти"}
-        value={text.email}
-        onChangeText={setText}
-        name="email"
+        value={state.email}
+        onChangeText={(value) => setState((prevState) => ({...prevState, email: value}))}
         onFocus={() => setIsShowKeybord(true)} 
-        autoComplete="email"
+        
       />
     
       <TextInput 
       style={styles.input} 
       placeholder={"Пароль"} 
-      value={text.password}
-      onChangeText={setText}
-      name="password"
+      value={state.password}
+      onChangeText={(value) => setState((prevState) => ({...prevState, password: value}))}
       onFocus={() => setIsShowKeybord(true)}
-   
+      secureTextEntry={true}
       />
-     
-      <TouchableOpacity style={styles.btn} >
+
+      <TouchableOpacity 
+      style={styles.btn} 
+      onPress={keybordHide}
+      >
         <Text style={styles.textBtn}>Зареєструватися</Text>
       </TouchableOpacity>
-      <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
+      <Text style={styles.textLogin} >Вже є акаунт? Увійти</Text>
     </View>
-    // </KeyboardAvoidingView>
-    // </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+    
   );
 };
 
 const styles = StyleSheet.create({
+  
   container: {
     // width: 375,
     // height: 549,
     width: "100%",
-    height: "75%",
+    height: "100%",
     top: 300,
     backgroundColor: "#FFFFFF",
-
+    
     alignItems: "center",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
@@ -90,6 +102,7 @@ const styles = StyleSheet.create({
     width: 343,
     height: 50,
     borderRadius: 10,
+    
   },
   text: {
     marginBottom: 30,

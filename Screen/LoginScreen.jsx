@@ -5,21 +5,30 @@ import {
   TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
   Platform,
 } from "react-native";
 import React, { useState } from "react";
 
+const initialState = {
+    email: '',
+    password: '',
+}
+
 export const LoginScreen = () => {
-  const [text, setText] = useState("");
   const [isShowKeybord, setIsShowKeybord] = useState(false);
+  const [state, setState] = useState(initialState);
+
+  const keybordHide = () => {
+    setIsShowKeybord(false);
+    Keyboard.dismiss();
+    console.log(state);
+    setState(initialState);
+}
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-      >
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
         <View
           style={{
             ...styles.container,
@@ -31,27 +40,24 @@ export const LoginScreen = () => {
           <TextInput
             style={styles.input}
             placeholder={"Адреса електронної пошти"}
-            value={text.email}
-            onChangeText={setText}
-            name="email"
             onFocus={() => setIsShowKeybord(true)}
-            keyboardType="email-address"
+            value={state.email}
+            onChangeText={(value) => setState((prevState) => ({...prevState, email: value}))}
           />
           <TextInput
             style={styles.input}
             placeholder={"Пароль"}
-            value={text.password}
-            onChangeText={setText}
-            name="password"
             onFocus={() => setIsShowKeybord(true)}
+            value={state.password}
+            onChangeText={(value) => setState((prevState) => ({...prevState, password: value}))}
+            secureTextEntry={true}
           />
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity style={styles.btn} onPress={keybordHide}>
             <Text style={styles.textBtn}>Увійти</Text>
-          </TouchableOpacity>
+          </TouchableOpacity >
           <Text style={styles.textLogin}>Немає акаунту? Зареєструватися</Text>
         </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
