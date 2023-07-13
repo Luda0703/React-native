@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   View,
   Text,
@@ -6,24 +6,65 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+//   KeyboardAvoidingView,
+//   TouchableWithoutFeedback,
+//   Keyboard,
+  Platform,
 } from "react-native";
 
+
 export const RegistrationScreen = () => {
+    const [text, setText] = useState("");
+    const [isShowKeybord, setIsShowKeybord] = useState(false);
+
+
   return (
-    <View style={styles.container}>
+    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        // <KeyboardAvoidingView 
+        // behavior={Platform.OS == "ios" ? "padding" : "height"}>
+    <View style={{
+            ...styles.container,
+            marginBottom: isShowKeybord ? 20 : 100,
+          }}>
       <Image style={styles.image} source={require("./image/AddPhoto.png")} />
       <Text style={styles.text}>Реєстрація</Text>
-      <TextInput style={styles.input} placeholder={"Логін"} />
+      
+      <TextInput 
+      style={styles.input} 
+      placeholder={"Логін"} 
+      value={text.login}
+      onChangeText={setText}
+      name="login"
+      onFocus={() => setIsShowKeybord(true)}
+   
+      />
       <TextInput
         style={styles.input}
         placeholder={"Адреса електронної пошти"}
+        value={text.email}
+        onChangeText={setText}
+        name="email"
+        onFocus={() => setIsShowKeybord(true)} 
+        autoComplete="email"
       />
-      <TextInput style={styles.input} placeholder={"Пароль"} />
+    
+      <TextInput 
+      style={styles.input} 
+      placeholder={"Пароль"} 
+      value={text.password}
+      onChangeText={setText}
+      name="password"
+      onFocus={() => setIsShowKeybord(true)}
+   
+      />
+     
       <TouchableOpacity style={styles.btn} >
         <Text style={styles.textBtn}>Зареєструватися</Text>
       </TouchableOpacity>
       <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
     </View>
+    // </KeyboardAvoidingView>
+    // </TouchableWithoutFeedback>
   );
 };
 
@@ -87,6 +128,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     fontFamily: 'Inter-Black',
-    lineHeight: 19
+    lineHeight: 19,
   },
 });

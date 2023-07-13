@@ -4,22 +4,54 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform,
 } from "react-native";
+import React, { useState } from "react";
 
 export const LoginScreen = () => {
+  const [text, setText] = useState("");
+  const [isShowKeybord, setIsShowKeybord] = useState(false);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Увійти</Text>
-      <TextInput
-        style={styles.input}
-        placeholder={"Адреса електронної пошти"}
-      />
-      <TextInput style={styles.input} placeholder={"Пароль"} />
-      <TouchableOpacity style={styles.btn}>
-        <Text style={styles.textBtn}>Увійти</Text>
-      </TouchableOpacity>
-      <Text style={styles.textLogin}>Немає акаунту? Зареєструватися</Text>
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+      >
+        <View
+          style={{
+            ...styles.container,
+            marginBottom: isShowKeybord ? 20 : 100,
+          }}
+        >
+          <Text style={styles.text}>Увійти</Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder={"Адреса електронної пошти"}
+            value={text.email}
+            onChangeText={setText}
+            name="email"
+            onFocus={() => setIsShowKeybord(true)}
+            keyboardType="email-address"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder={"Пароль"}
+            value={text.password}
+            onChangeText={setText}
+            name="password"
+            onFocus={() => setIsShowKeybord(true)}
+          />
+          <TouchableOpacity style={styles.btn}>
+            <Text style={styles.textBtn}>Увійти</Text>
+          </TouchableOpacity>
+          <Text style={styles.textLogin}>Немає акаунту? Зареєструватися</Text>
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -47,7 +79,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginBottom: 30,
-    fontFamily: 'Inter-Black',
+    fontFamily: "Inter-Black",
     fontSize: 24,
     marginTop: 100,
   },
@@ -71,6 +103,6 @@ const styles = StyleSheet.create({
     color: "#1B4371",
     fontSize: 16,
     textAlign: "center",
-    fontFamily: 'Inter-Black',
+    fontFamily: "Inter-Black",
   },
 });
