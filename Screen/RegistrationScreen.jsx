@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -12,75 +12,75 @@ import {
 } from "react-native";
 
 const initialState = {
-    login: '',
-    email: '',
-    password: '',
-}
+  login: "",
+  email: "",
+  password: "",
+};
 
 export const RegistrationScreen = () => {
-    const [isShowKeybord, setIsShowKeybord] = useState(false);
-    const [state, setState] = useState(initialState);
+  const [isShowKeybord, setIsShowKeybord] = useState(false);
+  const [state, setState] = useState(initialState);
 
-    const keybordHide = () => {
-        setIsShowKeybord(false);
-        Keyboard.dismiss();
-        console.log(state);
-        setState(initialState);
-    }
+  const keybordHide = () => {
+    setIsShowKeybord(false);
+    Keyboard.dismiss();
+    console.log(state);
+    setState(initialState);
+  };
 
   return (
     <KeyboardAvoidingView
-    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-    
-    <View style={{
-            ...styles.container,
-            marginBottom: isShowKeybord ? 20 : 100,
-          }}>
-      <Image style={styles.image} source={require("./image/AddPhoto.png")} />
-      <Text style={styles.text}>Реєстрація</Text>
-    
-      <TextInput 
-      style={styles.input} 
-      placeholder={"Логін"} 
-      value={state.login}
-      onChangeText={(value) => setState((prevState) => ({...prevState, login: value}))}
-      onFocus={() => setIsShowKeybord(true)}
-   
-      />
-      <TextInput
-        style={styles.input}
-        placeholder={"Адреса електронної пошти"}
-        value={state.email}
-        onChangeText={(value) => setState((prevState) => ({...prevState, email: value}))}
-        onFocus={() => setIsShowKeybord(true)} 
-        
-      />
-    
-      <TextInput 
-      style={styles.input} 
-      placeholder={"Пароль"} 
-      value={state.password}
-      onChangeText={(value) => setState((prevState) => ({...prevState, password: value}))}
-      onFocus={() => setIsShowKeybord(true)}
-      secureTextEntry={true}
-      />
-
-      <TouchableOpacity 
-      style={styles.btn} 
-      onPress={keybordHide}
+      <View
+        style={{
+          ...styles.container,
+          marginBottom: isShowKeybord ? 20 : 100,
+        }}
       >
-        <Text style={styles.textBtn}>Зареєструватися</Text>
-      </TouchableOpacity>
-      <Text style={styles.textLogin} >Вже є акаунт? Увійти</Text>
-    </View>
+        <Image style={styles.image} source={require("./image/AddPhoto.png")} />
+        <Text style={styles.text}>Реєстрація</Text>
+
+        <TextInput
+          style={styles.input}
+          placeholder={"Логін"}
+          value={state.login}
+          onChangeText={(value) =>
+            setState((prevState) => ({ ...prevState, login: value }))
+          }
+          onFocus={() => setIsShowKeybord(true)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder={"Адреса електронної пошти"}
+          value={state.email}
+          onChangeText={(value) =>
+            setState((prevState) => ({ ...prevState, email: value }))
+          }
+          onFocus={() => setIsShowKeybord(true)}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder={"Пароль"}
+          value={state.password}
+          onChangeText={(value) =>
+            setState((prevState) => ({ ...prevState, password: value }))
+          }
+          onFocus={() => setIsShowKeybord(true)}
+          secureTextEntry={true}
+        />
+
+        <TouchableOpacity style={styles.btn} onPress={keybordHide}>
+          <Text style={styles.textBtn}>Зареєструватися</Text>
+        </TouchableOpacity>
+        <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
+      </View>
     </KeyboardAvoidingView>
-    
   );
 };
 
 const styles = StyleSheet.create({
-  
   container: {
     // width: 375,
     // height: 549,
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     height: "100%",
     top: 300,
     backgroundColor: "#FFFFFF",
-    
+
     alignItems: "center",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
@@ -102,16 +102,14 @@ const styles = StyleSheet.create({
     width: 343,
     height: 50,
     borderRadius: 10,
-    
   },
   text: {
     marginBottom: 30,
     fontWeight: 500,
     fontSize: 30,
     marginTop: 100,
-    fontFamily: 'Inter-Black',
+    fontFamily: "Inter-Black",
     lineHeight: 35,
-    
   },
   btn: {
     marginTop: 30,
@@ -140,7 +138,7 @@ const styles = StyleSheet.create({
     color: "#1B4371",
     fontSize: 16,
     textAlign: "center",
-    fontFamily: 'Inter-Black',
+    fontFamily: "Inter-Black",
     lineHeight: 19,
   },
 });
