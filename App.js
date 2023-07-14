@@ -1,30 +1,20 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from "react-native";
-import { LoginScreen } from "./Screen/LoginScreen";
-import { PostsScreen } from "./Screen/PostsScreen";
-import { RegistrationScreen } from "./Screen/RegistrationScreen";
+import { StyleSheet } from "react-native";
+
+import { Home } from "./Screen/Home";
 import { useFonts } from "expo-font";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
     "Inter-Black": require("./assets/fonts/Roboto-Light.ttf"),
   });
 
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <PostsScreen></PostsScreen>
-        <RegistrationScreen></RegistrationScreen>
-        <LoginScreen></LoginScreen>
+  const routing = Home(true);
 
-        <StatusBar style="auto" />
-      </View>
-    </TouchableWithoutFeedback>
+  return (
+    <NavigationContainer style={styles.container}>
+      {routing}
+    </NavigationContainer>
   );
 }
 
