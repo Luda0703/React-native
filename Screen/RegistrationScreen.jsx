@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,6 +12,8 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
 } from "react-native";
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Home} from './Home'
 
 const initialState = {
   login: "",
@@ -20,14 +22,27 @@ const initialState = {
 };
 
 export const RegistrationScreen = ({ navigation }) => {
+    const [showPassword, setShowPassword] = useState(true);
   const [isShowKeybord, setIsShowKeybord] = useState(false);
   const [state, setState] = useState(initialState);
+  const [displayText, setDisplaytext] = useState("Показати");
 
   const keybordHide = () => {
     setIsShowKeybord(false);
     Keyboard.dismiss();
     console.log(state);
+    // AsyncStorage.getItem(navigation.navigate("Posts"))
+    navigation.navigate("Home");
+    
     setState(initialState);
+  };
+
+  useEffect(() => {
+    setDisplaytext(showPassword ? "Показати" : "Приховати");
+  }, [displayText, showPassword]);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -66,7 +81,8 @@ export const RegistrationScreen = ({ navigation }) => {
               }
               onFocus={() => setIsShowKeybord(true)}
             />
-
+             
+             <View>
             <TextInput
               style={styles.input}
               placeholder={"Пароль"}
@@ -75,10 +91,19 @@ export const RegistrationScreen = ({ navigation }) => {
                 setState((prevState) => ({ ...prevState, password: value }))
               }
               onFocus={() => setIsShowKeybord(true)}
-              secureTextEntry={true}
+              secureTextEntry={showPassword}
             />
-
-            <TouchableOpacity style={styles.btn} onPress={keybordHide}>
+            <TouchableOpacity
+              style={styles.passwordShow}
+              onPress={handleTogglePassword}>
+              <Text>{displayText}</Text>
+            </TouchableOpacity>
+            </View>
+            <TouchableOpacity 
+            style={styles.btn} 
+            onPress={keybordHide}
+            // onPress={() => navigation.navigate('Home')}
+            >
               <Text style={styles.textBtn}>Зареєструватися</Text>
             </TouchableOpacity>
             <Text style={styles.textLogin}>
@@ -164,5 +189,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "Inter-Black",
     lineHeight: 19,
+  },
+  passwordShow: {
+    position: "absolute",
+    top: 15,
+    right: 65,
+    transform: [{ translateX: 50 }, { translateY: 17 }],
+    fontFamily: "Inter-Black",
   },
 });

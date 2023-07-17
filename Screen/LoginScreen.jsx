@@ -10,7 +10,7 @@ import {
   Keyboard,
   ImageBackground,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useDispatch } from "react";
 
 const initialState = {
   email: "",
@@ -20,12 +20,22 @@ const initialState = {
 export const LoginScreen = ({ navigation }) => {
   const [isShowKeybord, setIsShowKeybord] = useState(false);
   const [state, setState] = useState(initialState);
+  // const dispatch = useDispatch();
 
-  const keybordHide = () => {
+  const keybordHide = (e) => {
     setIsShowKeybord(false);
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
+
+    // const form = e.currentTarget;
+    // dispatch(
+    //   logIn({
+    //     email: form.elements.email.value,
+    //     password: form.elements.password.value,
+    //   })
+    // );
+    // form.reset();
   };
 
   return (

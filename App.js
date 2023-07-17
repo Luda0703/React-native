@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
-
-import { Home } from "./Screen/Home";
+import { Router } from "./router";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -8,8 +7,11 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     "Inter-Black": require("./assets/fonts/Roboto-Light.ttf"),
   });
+  if (!fontsLoaded) {
+    return null;
+  }
 
-  const routing = Home(true);
+  const routing = Router();
 
   return (
     <NavigationContainer style={styles.container}>
