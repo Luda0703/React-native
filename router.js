@@ -21,21 +21,21 @@ export const Router = (isAuth) => {
           name="Login"
           component={LoginScreen}
         />
-        {/* <HomeStack.Screen
-        options={{ headerShown: false }}
-        name="Home"
-        component={Home}
-      /> */}
-      </MainStack.Navigator>
-    );
-  }
-  return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen
+        <HomeStack.Screen
         options={{ headerShown: false }}
         name="Home"
         component={Home}
       />
-    </HomeStack.Navigator>
-  );
+      </MainStack.Navigator>
+    );
+  }
+//   return (
+//     <HomeStack.Navigator>
+//       <HomeStack.Screen
+//         options={{ headerShown: false }}
+//         name="Home"
+//         component={Home}
+//       />
+//     </HomeStack.Navigator>
+//   );
 };

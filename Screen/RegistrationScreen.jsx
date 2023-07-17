@@ -12,8 +12,6 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
 } from "react-native";
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Home} from './Home'
 
 const initialState = {
   login: "",
@@ -22,7 +20,7 @@ const initialState = {
 };
 
 export const RegistrationScreen = ({ navigation }) => {
-    const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(true);
   const [isShowKeybord, setIsShowKeybord] = useState(false);
   const [state, setState] = useState(initialState);
   const [displayText, setDisplaytext] = useState("Показати");
@@ -31,9 +29,7 @@ export const RegistrationScreen = ({ navigation }) => {
     setIsShowKeybord(false);
     Keyboard.dismiss();
     console.log(state);
-    // AsyncStorage.getItem(navigation.navigate("Posts"))
     navigation.navigate("Home");
-    
     setState(initialState);
   };
 
@@ -102,7 +98,6 @@ export const RegistrationScreen = ({ navigation }) => {
             <TouchableOpacity 
             style={styles.btn} 
             onPress={keybordHide}
-            // onPress={() => navigation.navigate('Home')}
             >
               <Text style={styles.textBtn}>Зареєструватися</Text>
             </TouchableOpacity>
