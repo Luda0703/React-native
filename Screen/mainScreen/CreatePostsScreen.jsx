@@ -9,14 +9,19 @@ import React, {useState} from "react";
 import { Camera } from "expo-camera";
 // import axios from 'axios';
 
-export const CreatePostsScreen = () => {
+export const CreatePostsScreen = ({ navigation }) => {
     const [camera, setCamera] = useState(null);
     const [photo, setPhoto] = useState(null);
 
     const takePhoto = async () => {
       const photo = await camera.takePictureAsync();
-      setPhoto(photo.url);
+      setPhoto(photo.uri);
       console.log('photo', photo);
+    }
+
+    const sendPhoto = () => {
+        console.log('navigation', navigation);
+        navigation.navigate("Posts", { photo });
     }
 
   return (
@@ -28,8 +33,8 @@ export const CreatePostsScreen = () => {
         {photo &&
         <View style={styles.takePhotoContainer}>
         <Image 
-        source={{url: photo}} 
-        // style={{height: 200, width: 200}}
+        source={{uri: photo}} 
+        style={{height: 200, width: 200}}
         />
         </View>
         }
@@ -39,6 +44,13 @@ export const CreatePostsScreen = () => {
             <Text style={styles.snap}>SNAP</Text>
         </TouchableOpacity>
       </Camera>
+      <View>
+      <TouchableOpacity
+        style={styles.buttonContainer} 
+        onPress={sendPhoto}>
+            <Text style={styles.snap}>Опублікувати</Text>
+        </TouchableOpacity>
+      </View>
     
     </View>
   );
@@ -49,7 +61,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   camera: {
-    height: 300,
+    height: '70%',
+    marginHorizontal: 10,
+    borderRadius: 10,
     marginTop: 50,
     alignItems: 'center',
   },
@@ -72,8 +86,19 @@ const styles = StyleSheet.create({
     left: 10,
     borderColor: '#E5E5E5',
     borderWidth: 1,
-    width: 200,
-    height: 200, 
-    
+    // width: 200,
+    // height: 200, 
+    borderRadius: 10,
+  },
+  buttonContainer: {
+    marginHorizontal: 30,
+    height: 40,
+    borderWidth: 2,
+    borderColor: '#FF6C00',
+    backgroundColor: '#FF6C00',
+    marginTop: 50,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });
