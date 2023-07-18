@@ -7,16 +7,26 @@ import {
  } from "react-native";
 import React, {useState} from "react";
 import { Camera } from "expo-camera";
+// import * as Location from "expo-location";
 // import axios from 'axios';
 
 export const CreatePostsScreen = ({ navigation }) => {
     const [camera, setCamera] = useState(null);
     const [photo, setPhoto] = useState(null);
+    const [location, setLocation] = useState(null);
 
     const takePhoto = async () => {
       const photo = await camera.takePictureAsync();
+    //   const location = await Location.getCurrentPositionAsync({});
+    //   const coords = {
+    //     latitude: location.coords.latitude,
+    //     longitude: location.coords.longitude,
+    //   };
+    //   setLocation(coords);
+    //   console.log('latitude', location.coords.latitude);
+    //   console.log('longitude', location.coords.longitude);
       setPhoto(photo.uri);
-      console.log('photo', photo);
+    //   console.log('photo', photo);
     }
 
     const sendPhoto = () => {
