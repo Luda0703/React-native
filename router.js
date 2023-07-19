@@ -25,17 +25,17 @@ export const Router = (isAuth) => {
         options={{ headerShown: false }}
         name="Home"
         component={Home}
-      />
+      />   
       </MainStack.Navigator>
     );
   }
-//   return (
-//     <HomeStack.Navigator>
-//       <HomeStack.Screen
-//         options={{ headerShown: false }}
-//         name="Home"
-//         component={Home}
-//       />
-//     </HomeStack.Navigator>
-//   );
+  // return (
+  //   <HomeStack.Navigator>
+  //     <HomeStack.Screen
+  //       options={{ headerShown: false }}
+  //       name="Home"
+  //       component={Home}
+  //     />
+  //   </HomeStack.Navigator>
+  // );
 };

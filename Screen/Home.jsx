@@ -3,12 +3,11 @@ import { CreatePostsScreen } from "./mainScreen/CreatePostsScreen";
 import { ProfileScreen } from "./mainScreen/ProfileScreen";
 import { Feather } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 
 const Tabs = createBottomTabNavigator();
 
-export const Home = ({ navigation }) => {
+export const Home = () => {
     const [tabBarStyle, setTabBarStyle] = useState('flex');
 
     return (
@@ -43,37 +42,32 @@ export const Home = ({ navigation }) => {
         >
         <Tabs.Screen
         options={{
-            headerRight: () => (
-                <TouchableOpacity
-                  style={{ marginRight: 16, marginBottom: 10 }}
-                  onPress={() => navigation.navigate("Login")}
-                >
-                  <Feather name="log-out" size={24} color="#BDBDBD" />
-                </TouchableOpacity>
-              ),
+              headerShown: false,
           tabBarIcon: ({ color }) => (
             <Feather name="grid" size={24} color={color} />
           ),
         }}
-        name="Posts"
+        name="Публікації"
         component={PostsScreen}
       />
       <Tabs.Screen
         options={{
+          // headerShown: false,
           tabBarIcon: ({ color }) => (
             <Feather name="plus" size={24} color={color} />
           ),
         }}
-        name="Create"
+        name="Створити публікацію"
         component={CreatePostsScreen}
       />
       <Tabs.Screen
         options={{
+          // headerShown: false,
           tabBarIcon: ({ color }) => (
             <Feather name="user" size={24} color={color} />
           ),
         }}
-        name="Profile"
+        name="Профіль"
         component={ProfileScreen}
       />
       </Tabs.Navigator>
