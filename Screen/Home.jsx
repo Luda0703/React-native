@@ -1,4 +1,4 @@
-import { PostsScreen } from "./mainScreen/PostsScreen";
+import { DefaultScreenPosts } from "./nestedScreen/DefaultScreenPosts";
 import { CreatePostsScreen } from "./mainScreen/CreatePostsScreen";
 import { ProfileScreen } from "./mainScreen/ProfileScreen";
 import { Feather } from "@expo/vector-icons";
@@ -48,7 +48,7 @@ export const Home = () => {
           ),
         }}
         name="Публікації"
-        component={PostsScreen}
+        component={DefaultScreenPosts}
       />
       <Tabs.Screen
         options={{

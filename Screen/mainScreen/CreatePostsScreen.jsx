@@ -5,10 +5,12 @@ import {
     TouchableOpacity,
     Image,
     TextInput,
+    TouchableWithoutFeedback,
+    Keyboard,
  } from "react-native";
 import React, {useState, useEffect} from "react";
 import { Camera } from "expo-camera";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, Feather } from '@expo/vector-icons';
 import * as Location from "expo-location";
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
@@ -17,7 +19,7 @@ export const CreatePostsScreen = ({ navigation }) => {
     const [camera, setCamera] = useState(null);
     const [photo, setPhoto] = useState(null);
     const [location, setLocation] = useState(null);
-    const [capturedPhoto, setCapturedPhoto] = useState(null);
+    // const [capturedPhoto, setCapturedPhoto] = useState(null);
     const [convertedCoordinate, setConvertedCoordinate] = useState(null);
     const [namePost, setNamePost] = useState('');
     const [isDisabledPublishBtn, setIsDisabledPublishBtn] = useState(false);
@@ -33,12 +35,45 @@ export const CreatePostsScreen = ({ navigation }) => {
       })();
     }, []);
 
-    const openCamera = async () => {
-      const result = await ImagePicker.launchCameraAsync();
+    useEffect(() => {
+      const disabled =
+       photo !== null &&
+        namePost !== '' &&
+        convertedCoordinate !== null &&
+        location !== null
+          ? false
+          : true;
   
-      if (!result.canceled && result.assets.length > 0) {
-        await MediaLibrary.createAssetAsync(result.assets[0].uri);
-        setCapturedPhoto(result.assets[0].uri);
+      setIsDisabledPublishBtn(disabled);
+    }, [photo, namePost, convertedCoordinate, location]);
+
+    if (hasPermission === null) {
+      return <View />;
+    }
+    if (hasPermission === false) {
+      return <Text>No access to camera</Text>;
+    }
+
+    const takePhoto = async () => {
+      const photo = await camera.takePictureAsync();
+      const location = await Location.getCurrentPositionAsync();
+      setPhoto(photo.uri);
+    }
+
+    const sendPhoto = async () => {
+        navigation.navigate('Публікації', { photo, location, namePost, convertedCoordinate });
+        setPhoto(null);
+        setLocation(null);
+        setNamePost('');
+        setConvertedCoordinate(null);
+       
+    }
+
+    const openGallery = async () => {
+      const galleryResult = await ImagePicker.launchImageLibraryAsync();
+  
+      if (!galleryResult.canceled && galleryResult.assets.length > 0) {
+        setPhoto(galleryResult.assets[0].uri);
   
         const { coords } = await Location.getCurrentPositionAsync();
         setLocation(coords);
@@ -54,41 +89,8 @@ export const CreatePostsScreen = ({ navigation }) => {
       }
     };
 
-    // const sendPhoto = async () => {
-    //   // const photo = await camera.takePictureAsync();
-
-    //   // const location = await Location.getCurrentPositionAsync();
-    //   // console.log('latitude', location.coords.latitude);
-    //   // console.log('longitude', location.coords.longitude);
-
-    //   // setPhoto(photo.uri);
-    //   // console.log('photo', photo);
-    //   if (location) {
-    //     const photo = await uploadPhotoToServer(capturedPhoto);
-  
-    //     await writeDataToFirestore({
-    //       photo,
-    //       namePost,
-    //       location,
-    //       convertedCoordinate,
-    //       userId,
-    //     });
-  
-    //     navigation.navigate('Публікації');
-  
-    //     setCapturedPhoto(null);
-    //     setNamePost('');
-    //     setLocation(null);
-    //     setConvertedCoordinate(null);
-    //   }
-    // }
-
-    const sendPhoto = () => {
-        console.log('navigation', navigation);
-        navigation.navigate('Публікації', { photo });
-    }
-
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       <Camera 
       style={styles.camera}
@@ -98,22 +100,22 @@ export const CreatePostsScreen = ({ navigation }) => {
         <View style={styles.takePhotoContainer}>
         <Image 
         source={{uri: photo}} 
-        // style={{height: 100, width: 100}}
+        style={{height: 100, width: 100}}
         />
         </View>
         }
         <TouchableOpacity
         style={styles.snapContainer} 
-        onPress={openCamera}
+        onPress={takePhoto}
         >
             <MaterialIcons name="camera-alt" size={24} color="#BDBDBD" />
         </TouchableOpacity>
       </Camera>
       <TouchableOpacity 
-      // onPress={openGallery}
+      onPress={openGallery}
       >
             <Text style={styles.text}>
-              {capturedPhoto ? 'Редагувати фото' : 'Завантажте фото'}
+              {photo ? 'Редагувати фото' : 'Завантажте фото'}
             </Text>
           </TouchableOpacity>
 
@@ -129,23 +131,25 @@ export const CreatePostsScreen = ({ navigation }) => {
               style={{ ...styles.input, marginTop: 16 }}
               placeholder="Місцевість..."
               placeholderTextColor="#BDBDBD"
-              // value={
-              //   convertedCoordinate
-              //     ? `${convertedCoordinate.region}, ${convertedCoordinate.country}`
-              //     : null
-              // }
+              // value={convertedCoordinate}
+              onChangeText={setConvertedCoordinate}
+              value={
+                convertedCoordinate
+                  ? `${convertedCoordinate.region}, ${convertedCoordinate.country}`
+                  : null
+              }
             />
             <TouchableOpacity
-              style={
-                isDisabledPublishBtn
-                  ? {
-                      ...styles.button,
-                      backgroundColor: '#F6F6F6',
-                      color: '#BDBDBD',
+               style={
+                 isDisabledPublishBtn
+                   ? {
+                       ...styles.button,
+                       backgroundColor: '#F6F6F6',
+                     color: '#BDBDBD',
                     }
-                  : { ...styles.button, backgroundColor: '#FF6C00' }
+                   : { ...styles.button, backgroundColor: '#FF6C00' }
               }
-              disabled={isDisabledPublishBtn}
+               disabled={isDisabledPublishBtn}
               onPress={sendPhoto}
             >
               <Text
@@ -157,22 +161,33 @@ export const CreatePostsScreen = ({ navigation }) => {
                       }
                     : { ...styles.buttonTitle, color: '#FFFFFF' }
                 }
-              >
-                {location || !capturedPhoto
+               > 
+                {location || !photo
                   ? 'Опублікувати'
                   : 'Завантаження...'}
               </Text>
             </TouchableOpacity>
           </View>
-      {/* <View>
-      <TouchableOpacity
-        style={styles.buttonContainer} 
-        onPress={sendPhoto}>
-            <Text style={styles.snap}>Опублікувати</Text>
-        </TouchableOpacity>
-      </View> */}
+          <View
+          style={{
+            alignItems: 'center',
+            marginBottom: 34,
+          }}
+        >
+          <TouchableOpacity
+            style={styles.buttonDelete}
+            onPress={() => {
+              setPhoto(null);
+              setNamePost('');
+              setConvertedCoordinate(null);
+            }}
+          >
+            <Feather name="trash-2" size={24} color="#BDBDBD" />
+          </TouchableOpacity>
+        </View>
     
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -182,7 +197,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: '#ffffff',
     flex: 1,
-    // justifyContent: 'space-between',
   },
   camera: {
     position: 'relative',
@@ -216,7 +230,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingTop: 16,
     paddingBottom: 15,
-    fontFamily: 'Roboto-Regular',
     fontSize: 16,
     borderBottomColor: '#E8E8E8',
     color: '#212121',
@@ -226,16 +239,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     marginTop: 32,
     borderRadius: 100,
-
-    // marginHorizontal: 30,
-    // height: 40,
-    // borderWidth: 2,
-    // borderColor: '#FF6C00',
-    // backgroundColor: '#FF6C00',
-    // marginTop: 50,
-    // borderRadius: 20,
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
   buttonTitle: {
     textAlign: 'center',
@@ -254,6 +257,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonDelete: {
+    marginTop: 150,
     justifyContent: 'center',
     alignItems: 'center',
     width: 70,
