@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet } from "react-native";
 import React from "react";
 
-export const CommentsScreen = ({ navigation }) => {
+export const CommentsScreen = () => {
   return (
     <View style={styles.container}>
       <Text>CommentsScreen</Text>

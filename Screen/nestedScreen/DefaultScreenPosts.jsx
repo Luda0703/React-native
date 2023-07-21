@@ -1,105 +1,104 @@
 import { useEffect, useState } from "react";
-import { 
+import {
   Text,
-  View, 
-  StyleSheet, 
-  FlatList, 
-  Image, 
-  TouchableOpacity 
+  View,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
-import { Feather } from '@expo/vector-icons';
+import { Feather } from "@expo/vector-icons";
 
-export const DefaultScreenPosts = ({route, navigation}) => {
+export const DefaultScreenPosts = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
-  
+
   useEffect(() => {
-    if(route.params) {
+    if (route.params) {
       setPosts((prev) => [...prev, route.params]);
     }
-  }, [route.params])
+  }, [route.params]);
 
   return (
     <View style={styles.container}>
-      <FlatList 
-      data={posts} 
-      keyExtractor={(item) => item.id}
-      renderItem={({item: {
-        id,
-        photo,
-        namePost,
-        location,
-        convertedCoordinate,
-        commentsCount,
-      }}) => {
-        return (
-          <View 
-          style={styles.subContainer}
-          >
-            <View style={styles.imageContainer}>
-              <Image source={{ uri: photo }} style={styles.image} />
-            </View>
-            <Text style={[{ ...styles.text, ...styles.namePost }]}>
-              {namePost}
-            </Text>
-            <View style={styles.infoThumb}>
-              <TouchableOpacity
-                style={styles.info}
-                onPress={() => navigation.navigate('Коментарі')}
-              >
-                <Feather
-                  name="message-circle"
-                  size={24}
-                  color="#BDBDBD"
-                  style={[
-                    { transform: [{ rotate: '-90deg' }] },
-                    commentsCount
-                      ? { color: '#FF6C00' }
-                      : { color: '#BDBDBD' },
-                  ]}
-                />
-                <Text
-                  style={[
-                    styles.textComment,
-                    commentsCount
-                      ? { color: '#212121' }
-                      : { color: '#BDBDBD' },
-                  ]}
+      <FlatList
+        data={posts}
+        keyExtractor={(item) => item.id}
+        renderItem={({
+          item: {
+            id,
+            photo,
+            namePost,
+            location,
+            convertedCoordinate,
+            commentsCount,
+          },
+        }) => {
+          return (
+            <View style={styles.subContainer}>
+              <View style={styles.imageContainer}>
+                <Image source={{ uri: photo }} style={styles.image} />
+              </View>
+              <Text style={[{ ...styles.text, ...styles.namePost }]}>
+                {namePost}
+              </Text>
+              <View style={styles.infoThumb}>
+                <TouchableOpacity
+                  style={styles.info}
+                  onPress={() => navigation.navigate("Коментарі")}
                 >
-                  {commentsCount}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.info}
-                onPress={() => navigation.navigate('Карта')}
-              >
-                <Feather name="map-pin" size={24} color="#BDBDBD" />
-                <Text
-                  style={[{ ...styles.text, ...styles.locationText }]}
-                >{convertedCoordinate}</Text>
-              </TouchableOpacity>
+                  <Feather
+                    name="message-circle"
+                    size={24}
+                    color="#BDBDBD"
+                    style={[
+                      { transform: [{ rotate: "-90deg" }] },
+                      commentsCount
+                        ? { color: "#FF6C00" }
+                        : { color: "#BDBDBD" },
+                    ]}
+                  />
+                  <Text
+                    style={[
+                      styles.textComment,
+                      commentsCount
+                        ? { color: "#212121" }
+                        : { color: "#BDBDBD" },
+                    ]}
+                  >
+                    {commentsCount}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.info}
+                  onPress={() => navigation.navigate("Карта")}
+                >
+                  <Feather name="map-pin" size={24} color="#BDBDBD" />
+                  <Text style={[{ ...styles.text, ...styles.locationText }]}>
+                    {convertedCoordinate}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        );
-      }}
+          );
+        }}
       />
     </View>
-  )
-  
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
     padding: 15,
-    height: '100%',
-    backgroundColor: '#ffffff',
+    height: "100%",
+    backgroundColor: "#ffffff",
   },
   subContainer: {
     marginBottom: 32,
   },
   text: {
     fontSize: 16,
-    color: '#212121',
+    color: "#212121",
   },
   image: {
     height: 240,
@@ -110,12 +109,12 @@ const styles = StyleSheet.create({
     fontFamily: "Inter-Black",
   },
   infoThumb: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   info: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 5,
-    alignItems: 'center',
+    alignItems: "center",
   },
 });

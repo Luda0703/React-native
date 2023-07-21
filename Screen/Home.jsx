@@ -8,40 +8,40 @@ import { TouchableOpacity } from "react-native";
 
 const Tabs = createBottomTabNavigator();
 
-export const Home = () => {
-    const [tabBarStyle, setTabBarStyle] = useState('flex');
+export const Home = ({ navigation }) => {
+  const [tabBarStyle, setTabBarStyle] = useState("flex");
 
-    return (
-        <Tabs.Navigator
-        screenOptions={{
-            headerTitleAlign: 'center',
-    
-            headerStyle: {
-              borderBottomWidth: 1,
-              borderColor: '#E5E5E5',
-            },
-    
-            tabBarShowLabel: false,
-            tabBarActiveBackgroundColor: '#FF6C00',
-            tabBarActiveTintColor: '#ffffff',
-            tabBarInactiveTintColor: '#212121',
-    
-            tabBarStyle: {
-              display: tabBarStyle,
-              height: 83,
-              paddingTop: 5,
-              paddingBottom: 34,
-              paddingHorizontal: 90,
-              borderTopWidth: 1,
-              borderColor: '#E5E5E5',
-            },
-    
-            tabBarItemStyle: {
-              borderRadius: 20,
-            },
-          }}
-        >
-        <Tabs.Screen
+  return (
+    <Tabs.Navigator
+      screenOptions={{
+        headerTitleAlign: "center",
+
+        headerStyle: {
+          borderBottomWidth: 1,
+          borderColor: "#E5E5E5",
+        },
+
+        tabBarShowLabel: false,
+        tabBarActiveBackgroundColor: "#FF6C00",
+        tabBarActiveTintColor: "#ffffff",
+        tabBarInactiveTintColor: "#212121",
+
+        tabBarStyle: {
+          display: tabBarStyle,
+          height: 83,
+          paddingTop: 5,
+          paddingBottom: 34,
+          paddingHorizontal: 90,
+          borderTopWidth: 1,
+          borderColor: "#E5E5E5",
+        },
+
+        tabBarItemStyle: {
+          borderRadius: 20,
+        },
+      }}
+    >
+      <Tabs.Screen
         options={{
           headerRight: () => (
             <TouchableOpacity
@@ -51,8 +51,6 @@ export const Home = () => {
               <Feather name="log-out" size={24} color="#BDBDBD" />
             </TouchableOpacity>
           ),
-    
-              // headerShown: false,
           tabBarIcon: ({ color }) => (
             <Feather name="grid" size={24} color={color} />
           ),
@@ -62,7 +60,6 @@ export const Home = () => {
       />
       <Tabs.Screen
         options={{
-          // headerShown: false,
           tabBarIcon: ({ color }) => (
             <Feather name="plus" size={24} color={color} />
           ),
@@ -72,15 +69,14 @@ export const Home = () => {
       />
       <Tabs.Screen
         options={{
-            headerRight: () => (
-              <TouchableOpacity
-                style={{ marginRight: 16, marginBottom: 10 }}
-                onPress={() => navigation.navigate("Login")}
-              >
-                <Feather name="log-out" size={24} color="#BDBDBD" />
-              </TouchableOpacity>
-            ),
-          // headerShown: false,
+          headerRight: () => (
+            <TouchableOpacity
+              style={{ marginRight: 16, marginBottom: 10 }}
+              onPress={() => navigation.navigate("Login")}
+            >
+              <Feather name="log-out" size={24} color="#BDBDBD" />
+            </TouchableOpacity>
+          ),
           tabBarIcon: ({ color }) => (
             <Feather name="user" size={24} color={color} />
           ),
@@ -88,6 +84,6 @@ export const Home = () => {
         name="Профіль"
         component={ProfileScreen}
       />
-      </Tabs.Navigator>
-    )
-}
+    </Tabs.Navigator>
+  );
+};

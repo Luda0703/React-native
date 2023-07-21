@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginBottom: 25,
-    // fontFamily: "Inter-Black",
+    fontFamily: "Inter-Black",
     fontWeight: 500,
     fontSize: 30,
     lineHeight: 35,
@@ -138,13 +138,13 @@ const styles = StyleSheet.create({
     color: "#1B4371",
     fontSize: 16,
     textAlign: "center",
-    // fontFamily: "Inter-Black",
+    fontFamily: "Inter-Black",
     textDecorationLine: "underline",
   },
   textLog: {
     color: "#1B4371",
     fontSize: 16,
     textAlign: "center",
-    // fontFamily: "Inter-Black",
+    fontFamily: "Inter-Black",
   },
 });
