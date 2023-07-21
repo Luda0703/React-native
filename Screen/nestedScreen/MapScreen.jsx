@@ -8,14 +8,14 @@ export const MapScreen = () => {
       <MapView 
       style={{flex: 1}}
       initialRegion={{
-        longitude: '', 
-        latitude: '',
-        latitudeDelta: '',
-        longitudeDelta: '',
-        // latitude: 37.78825,
-        //   longitude: -122.4324,
-        //   latitudeDelta: 0.0922,
-        //   longitudeDelta: 0.0421,
+        // longitude: '', 
+        // latitude: '',
+        // latitudeDelta: '',
+        // longitudeDelta: '',
+        latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
     }}
       >
        <Marker coordinate={{latitude: 37.78825, longitude: -122.4324}}/>

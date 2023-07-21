@@ -19,7 +19,6 @@ export const CreatePostsScreen = ({ navigation }) => {
     const [camera, setCamera] = useState(null);
     const [photo, setPhoto] = useState(null);
     const [location, setLocation] = useState(null);
-    // const [capturedPhoto, setCapturedPhoto] = useState(null);
     const [convertedCoordinate, setConvertedCoordinate] = useState(null);
     const [namePost, setNamePost] = useState('');
     const [isDisabledPublishBtn, setIsDisabledPublishBtn] = useState(false);
@@ -35,17 +34,17 @@ export const CreatePostsScreen = ({ navigation }) => {
       })();
     }, []);
 
-    useEffect(() => {
-      const disabled =
-       photo !== null &&
-        namePost !== '' &&
-        convertedCoordinate !== null &&
-        location !== null
-          ? false
-          : true;
+    // useEffect(() => {
+    //   const disabled =
+    //    photo !== null &&
+    //     namePost !== '' &&
+    //     convertedCoordinate !== null &&
+    //     location !== null
+    //       ? false
+    //       : true;
   
-      setIsDisabledPublishBtn(disabled);
-    }, [photo, namePost, convertedCoordinate, location]);
+    //   setIsDisabledPublishBtn(disabled);
+    // }, [photo, namePost, convertedCoordinate, location]);
 
     if (hasPermission === null) {
       return <View />;
@@ -131,40 +130,30 @@ export const CreatePostsScreen = ({ navigation }) => {
               style={{ ...styles.input, marginTop: 16 }}
               placeholder="Місцевість..."
               placeholderTextColor="#BDBDBD"
-              // value={convertedCoordinate}
+              value={convertedCoordinate}
               onChangeText={setConvertedCoordinate}
-              value={
-                convertedCoordinate
-                  ? `${convertedCoordinate.region}, ${convertedCoordinate.country}`
-                  : null
-              }
+              // value={
+              //   convertedCoordinate
+              //     ? `${convertedCoordinate.region}, ${convertedCoordinate.country}`
+              //     : null
+              // }
             />
             <TouchableOpacity
-               style={
-                 isDisabledPublishBtn
-                   ? {
-                       ...styles.button,
-                       backgroundColor: '#F6F6F6',
-                     color: '#BDBDBD',
-                    }
-                   : { ...styles.button, backgroundColor: '#FF6C00' }
-              }
-               disabled={isDisabledPublishBtn}
+            style={[
+              !photo || !namePost || !convertedCoordinate
+                ? styles.button
+                : styles.activeButton,
+            ]}
+              disabled={!photo || !namePost || !convertedCoordinate}
               onPress={sendPhoto}
             >
               <Text
-                style={
-                  isDisabledPublishBtn
-                    ? {
-                        ...styles.buttonTitle,
-                        color: '#BDBDBD',
-                      }
-                    : { ...styles.buttonTitle, color: '#FFFFFF' }
-                }
-               > 
-                {location || !photo
-                  ? 'Опублікувати'
-                  : 'Завантаження...'}
+              style={[
+                !photo || !namePost || !convertedCoordinate
+                  ? styles.buttonTitle
+                  : styles.activeButtonTitle,
+              ]}
+               > Опублікувати
               </Text>
             </TouchableOpacity>
           </View>
@@ -239,12 +228,31 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     marginTop: 32,
     borderRadius: 100,
+    backgroundColor: '#F6F6F6',
+    color: '#BDBDBD',
+  },
+  activeButton: {
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    marginTop: 32,
+    borderRadius: 100,
+   
+    backgroundColor: '#FF6C00'
   },
   buttonTitle: {
     textAlign: 'center',
     fontSize: 16,
     fontFamily: "Inter-Black",
     lineHeight: 19,
+    color: '#BDBDBD'
+  },
+  activeButtonTitle: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontFamily: "Inter-Black",
+    lineHeight: 19,
+    color: '#FFFFFF'
+    
   },
   text: {
     marginTop: 8,

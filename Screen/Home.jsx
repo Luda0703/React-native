@@ -4,6 +4,7 @@ import { ProfileScreen } from "./mainScreen/ProfileScreen";
 import { Feather } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React, { useState } from "react";
+import { TouchableOpacity } from "react-native";
 
 const Tabs = createBottomTabNavigator();
 
@@ -42,7 +43,16 @@ export const Home = () => {
         >
         <Tabs.Screen
         options={{
-              headerShown: false,
+          headerRight: () => (
+            <TouchableOpacity
+              style={{ marginRight: 16, marginBottom: 10 }}
+              onPress={() => navigation.navigate("Login")}
+            >
+              <Feather name="log-out" size={24} color="#BDBDBD" />
+            </TouchableOpacity>
+          ),
+    
+              // headerShown: false,
           tabBarIcon: ({ color }) => (
             <Feather name="grid" size={24} color={color} />
           ),
@@ -62,6 +72,14 @@ export const Home = () => {
       />
       <Tabs.Screen
         options={{
+            headerRight: () => (
+              <TouchableOpacity
+                style={{ marginRight: 16, marginBottom: 10 }}
+                onPress={() => navigation.navigate("Login")}
+              >
+                <Feather name="log-out" size={24} color="#BDBDBD" />
+              </TouchableOpacity>
+            ),
           // headerShown: false,
           tabBarIcon: ({ color }) => (
             <Feather name="user" size={24} color={color} />

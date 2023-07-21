@@ -18,8 +18,6 @@ export const DefaultScreenPosts = ({route, navigation}) => {
       setPosts((prev) => [...prev, route.params]);
     }
   }, [route.params])
-  console.log('posts', posts);
-
 
   return (
     <View style={styles.container}>
@@ -92,13 +90,11 @@ export const DefaultScreenPosts = ({route, navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
+    padding: 15,
     height: '100%',
     backgroundColor: '#ffffff',
-    // flex: 1,
-    // justifyContent: "center",
   },
   subContainer: {
-    paddingHorizontal: 16,
     marginBottom: 32,
   },
   text: {

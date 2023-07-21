@@ -11,22 +11,31 @@ const NestedScreen = createStackNavigator();
 export const PostsScreen = ({ navigation }) => {
    return (
     <NestedScreen.Navigator>
+    <NestedScreen.Screen name='Публікації' component={DefaultScreenPosts}/>
+    <NestedScreen.Screen  
+    options={{ 
+      headerLeft: () => (
+        <TouchableOpacity
+          style={{ marginRight: 16, marginBottom: 10 }}
+          onPress={() => navigation.goBack()}
+        >
+          <Feather name="arrow-left" size={24} color="#212121" />
+        </TouchableOpacity>
+      ), 
+    }}
+    name='Карта' component={MapScreen}/>
     <NestedScreen.Screen 
-    options={{
-      headerRight: () => (
+      options={{
+        headerLeft: () => (
           <TouchableOpacity
             style={{ marginRight: 16, marginBottom: 10 }}
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.goBack()}
           >
-            <Feather name="log-out" size={24} color="#BDBDBD" />
+            <Feather name="arrow-left" size={24} color="#212121" />
           </TouchableOpacity>
         ),
-  }}
-    name='Публікації'
-    component={DefaultScreenPosts}
-    />
-    <NestedScreen.Screen name='Карта' component={MapScreen}/>
-    <NestedScreen.Screen name='Коментарі' component={CommentsScreen}/>
+      }}
+    name='Коментарі' component={CommentsScreen}/>
    </NestedScreen.Navigator>
    )
 }
