@@ -12,6 +12,8 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
 } from "react-native";
+import { useDispatch } from "react-redux";
+import { registerDB } from "../Redax/auth/authOperations"; 
 
 const initialState = {
   login: "",
@@ -31,7 +33,9 @@ export const RegistrationScreen = ({ navigation }) => {
     console.log(state);
     navigation.navigate("Home");
     setState(initialState);
+    dispatch(registerDB(state))
   };
+  const dispatch = useDispatch()
 
   useEffect(() => {
     setDisplaytext(showPassword ? "Показати" : "Приховати");

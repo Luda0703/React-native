@@ -11,6 +11,8 @@ import {
   ImageBackground,
 } from "react-native";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginDB } from "../Redax/auth/authOperations";
 
 const initialState = {
   email: "",
@@ -27,7 +29,10 @@ export const LoginScreen = ({ navigation }) => {
     console.log(state);
     navigation.navigate("Home");
     setState(initialState);
+    dispatch(loginDB(state));
   };
+
+  const dispatch = useDispatch()
 
   return (
     <ImageBackground

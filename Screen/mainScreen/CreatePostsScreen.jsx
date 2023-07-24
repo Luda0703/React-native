@@ -1,3 +1,4 @@
+import { collection, addDoc } from "firebase/firestore"; 
 import {
   Text,
   View,
@@ -14,6 +15,8 @@ import { MaterialIcons, Feather } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
+import { useSelector } from "react-redux";
+import { db } from "../../config";
 
 export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
@@ -21,8 +24,20 @@ export const CreatePostsScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [convertedCoordinate, setConvertedCoordinate] = useState(null);
   const [namePost, setNamePost] = useState("");
-  const [isDisabledPublishBtn, setIsDisabledPublishBtn] = useState(false);
   const [hasPermission, setHasPermission] = useState(null);
+
+  const {userId, login} = useSelector(state => state.auth);
+  console.log(userId, login)
+
+  const createSetPost = async () => {
+// Add a new document with a generated id.
+await addDoc(collection(db, "setPost"), {
+  photo,
+  location,
+   namePost,
+  convertedCoordinate,
+});
+  }
 
   useEffect(() => {
     (async () => {
@@ -54,6 +69,7 @@ export const CreatePostsScreen = ({ navigation }) => {
       namePost,
       convertedCoordinate,
     });
+    createSetPost();
     setPhoto(null);
     setLocation(null);
     setNamePost("");
