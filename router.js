@@ -8,7 +8,6 @@ import { CommentsScreen } from "./Screen/nestedScreen/CommentsScreen";
 
 const MainStack = createStackNavigator();
 const HomeStack = createStackNavigator();
-const DefaultStack = createStackNavigator();
 
 export const Router = (isAuth) => {
   if (!isAuth) {
@@ -24,23 +23,19 @@ export const Router = (isAuth) => {
           name="Login"
           component={LoginScreen}
         />
-        <HomeStack.Screen
+        
+      </MainStack.Navigator>
+    );
+  }
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen
           options={{ headerShown: false }}
           name="Home"
           component={Home}
         />
-        <DefaultStack.Screen name="Карта" component={MapScreen} />
-        <DefaultStack.Screen name="Коментарі" component={CommentsScreen} />
-      </MainStack.Navigator>
-    );
-  }
-  // return (
-  //   <HomeStack.Navigator>
-  //     <HomeStack.Screen
-  //       options={{ headerShown: false }}
-  //       name="Home"
-  //       component={Home}
-  //     />
-  //   </HomeStack.Navigator>
-  // );
+        <HomeStack.Screen name="Карта" component={MapScreen} />
+        <HomeStack.Screen name="Коментарі" component={CommentsScreen} />
+    </HomeStack.Navigator>
+  );
 };

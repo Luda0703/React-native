@@ -32,6 +32,8 @@ export const CreatePostsScreen = ({ navigation }) => {
   const createSetPost = async () => {
 // Add a new document with a generated id.
 await addDoc(collection(db, "setPost"), {
+  userId,
+  login,
   photo,
   location,
    namePost,

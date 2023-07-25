@@ -1,17 +1,23 @@
 import { StyleSheet } from "react-native";
 import { Router } from "./router";
-import { useFonts } from "expo-font";
+
 import { NavigationContainer } from "@react-navigation/native";
+import { authStateChanged } from "./Redax/auth/authOperations";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export default function Main() {
-  const [fontsLoaded] = useFonts({
-    "Inter-Black": require("./assets/fonts/Roboto-Light.ttf"),
-  });
-  if (!fontsLoaded) {
-    return null;
-  }
 
-  const routing = Router();
+  const {stateChange} = useSelector((state) => state.auth);
+  console.log('stateChange', stateChange)
+   const dispatch = useDispatch();
+
+    useEffect(() => {
+      dispatch(authStateChanged())
+    }, [])
+  
+
+  const routing = Router(stateChange);
 
   return (
 

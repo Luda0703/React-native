@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
+import { useSelector } from "react-redux";
 import {
   Text,
   View,
@@ -9,18 +10,41 @@ import {
 } from "react-native";
 import React from "react";
 import { Feather } from "@expo/vector-icons";
+import { db } from "../../config";
+import { collection, query, where, getDocs, onSnapshot, } from "firebase/firestore";
 
 export const DefaultScreenPosts = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
 
+  const { login, userId, email, photoURL } = useSelector((state) => state.auth);
+  console.log("userId", userId)
+
+const getDataFromFirestore = async () => {
+      const q = query(collection(db, "setPost"), where("userId", "==", userId));
+
+      onSnapshot(q, (data) => {
+        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      });
+ 
+  };
+
   useEffect(() => {
-    if (route.params) {
-      setPosts((prev) => [...prev, route.params]);
-    }
-  }, [route.params]);
+    getDataFromFirestore();
+  }, []);
 
   return (
     <View style={styles.container}>
+       <View style={styles.containerUser}>
+              <Image source={{ uri: photoURL }} style={styles.photoUser} />
+              <View style={styles.userInfo}>
+              <Text style={{ fontFamily: 'Inter-Black', fontSize: 13, marginBottom: 5, }}>
+                Name: {login}
+              </Text>
+              <Text style={{ fontFamily: 'Inter-Black', fontSize: 13,}}>
+                email: {email}
+              </Text>
+              </View>
+        </View>
       <FlatList
         data={posts}
         keyExtractor={(item) => item.id}
@@ -45,7 +69,7 @@ export const DefaultScreenPosts = ({ route, navigation }) => {
               <View style={styles.infoThumb}>
                 <TouchableOpacity
                   style={styles.info}
-                  onPress={() => navigation.navigate("Коментарі")}
+                  onPress={() => navigation.navigate("Коментарі", { postId: id, photo })}
                 >
                   <Feather
                     name="message-circle"
@@ -71,7 +95,11 @@ export const DefaultScreenPosts = ({ route, navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.info}
-                  onPress={() => navigation.navigate("Карта")}
+                  onPress={() => navigation.navigate("Карта", {
+                    photo,
+                    namePost,
+                    location,
+                  })}
                 >
                   <Feather name="map-pin" size={24} color="#BDBDBD" />
                   <Text style={[{ ...styles.text, ...styles.locationText }]}>
@@ -80,6 +108,7 @@ export const DefaultScreenPosts = ({ route, navigation }) => {
                 </TouchableOpacity>
               </View>
             </View>
+            
           );
         }}
       />
@@ -89,7 +118,7 @@ export const DefaultScreenPosts = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 10,
     height: "100%",
     backgroundColor: "#ffffff",
   },
@@ -117,4 +146,19 @@ const styles = StyleSheet.create({
     gap: 5,
     alignItems: "center",
   },
+  photoUser: {
+    height: 60,
+    width: 60,
+    borderRadius: 16,
+  },
+  containerUser: {
+    marginTop: 32,
+    marginBottom: 32,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+  },
+  userInfo: {
+    marginLeft: 8,
+    justifyContent: 'center',
+  }
 });

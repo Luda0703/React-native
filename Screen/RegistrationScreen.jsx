@@ -27,15 +27,18 @@ export const RegistrationScreen = ({ navigation }) => {
   const [state, setState] = useState(initialState);
   const [displayText, setDisplaytext] = useState("Показати");
 
-  const keybordHide = () => {
+  const dispatch = useDispatch()
+
+  const keybordHide = (e) => {
+    e.preventDefault();
     setIsShowKeybord(false);
     Keyboard.dismiss();
-    console.log(state);
-    navigation.navigate("Home");
+    // console.log(state);
+    // navigation.navigate("Home");
+ 
+    dispatch(registerDB(state));
     setState(initialState);
-    dispatch(registerDB(state))
   };
-  const dispatch = useDispatch()
 
   useEffect(() => {
     setDisplaytext(showPassword ? "Показати" : "Приховати");

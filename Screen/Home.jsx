@@ -5,11 +5,18 @@ import { Feather } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
+import { useDispatch } from "react-redux";
+import { authLogOut } from "../Redax/auth/authOperations";
 
 const Tabs = createBottomTabNavigator();
 
 export const Home = ({ navigation }) => {
   const [tabBarStyle, setTabBarStyle] = useState("flex");
+  const dispatch = useDispatch();
+
+  const logOut = () => {
+    dispatch(authLogOut());
+  };
 
   return (
     <Tabs.Navigator
@@ -46,7 +53,8 @@ export const Home = ({ navigation }) => {
           headerRight: () => (
             <TouchableOpacity
               style={{ marginRight: 16, marginBottom: 10 }}
-              onPress={() => navigation.navigate("Login")}
+              // onPress={() => navigation.navigate("Login")}
+              onPress={logOut}
             >
               <Feather name="log-out" size={24} color="#BDBDBD" />
             </TouchableOpacity>
@@ -68,19 +76,12 @@ export const Home = ({ navigation }) => {
         component={CreatePostsScreen}
       />
       <Tabs.Screen
-        options={{
-          headerRight: () => (
-            <TouchableOpacity
-              style={{ marginRight: 16, marginBottom: 10 }}
-              onPress={() => navigation.navigate("Login")}
-            >
-              <Feather name="log-out" size={24} color="#BDBDBD" />
-            </TouchableOpacity>
-          ),
-          tabBarIcon: ({ color }) => (
-            <Feather name="user" size={24} color={color} />
-          ),
-        }}
+      options={{ 
+        tabBarIcon: ({ color }) => (
+          <Feather name="user" size={24} color={color} />
+        ),
+         headerShown: false
+      }}
         name="Профіль"
         component={ProfileScreen}
       />

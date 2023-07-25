@@ -24,12 +24,17 @@ export const LoginScreen = ({ navigation }) => {
   const [state, setState] = useState(initialState);
 
   const keybordHide = (e) => {
+    e.preventDefault();
     setIsShowKeybord(false);
     Keyboard.dismiss();
-    console.log(state);
-    navigation.navigate("Home");
-    setState(initialState);
+    // console.log(state);
+    // navigation.navigate("Home");
+   
     dispatch(loginDB(state));
+    setState({
+      email: "",
+    password: "",});
+  
   };
 
   const dispatch = useDispatch()
