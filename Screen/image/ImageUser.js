@@ -7,8 +7,6 @@ import { useAuth } from '../../Screen/hooks/useAuth';
 export const ImageUser = ({ state, onPress, onDelete }) => {
   const dispatch = useDispatch();
 
-//   const { photoURL } = useSelector((state) => state.auth);
-
   const { authState: { photoURL } } = useAuth();
 
   const handleRemoveAvatar = () => {
@@ -33,7 +31,7 @@ export const ImageUser = ({ state, onPress, onDelete }) => {
               : () => onDelete((prev) => ({ ...prev, photoURL: null }))
           }
         >
-          <AntDesign name="closecircleo" size={25} color="#BDBDBD" />
+          <AntDesign name="closecircleo" size={25} color="#FF6C00" />
         </TouchableOpacity>
       )}
     </View>
@@ -63,3 +61,24 @@ const styles = StyleSheet.create({
     
   }
 });
+
+// import * as React from "react"
+// import Svg, { Circle, Path } from "react-native-svg"
+//  export const ImageUser = (props) => (
+//   <Svg
+//     xmlns="http://www.w3.org/2000/svg"
+//     width={25}
+//     height={25}
+//     fill="none"
+//     {...props}
+//   >
+//     <Circle cx={12.5} cy={12.5} r={12} fill="#fff" stroke="#FF6C00" />
+//     <Path
+//       fill="#FF6C00"
+//       fillRule="evenodd"
+//       d="M13 6h-1v6H6v1h6v6h1v-6h6v-1h-6V6Z"
+//       clipRule="evenodd"
+//     />
+//   </Svg>
+// )
+// export default SvgAdd

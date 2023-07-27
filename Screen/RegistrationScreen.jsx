@@ -12,8 +12,10 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerDB } from "../Redax/auth/authOperations"; 
+import { ImageUser } from "./image/ImageUser";
+import { useAuth } from "./hooks/useAuth";
 
 const initialState = {
   login: "",
@@ -33,9 +35,6 @@ export const RegistrationScreen = ({ navigation }) => {
     e.preventDefault();
     setIsShowKeybord(false);
     Keyboard.dismiss();
-    // console.log(state);
-    // navigation.navigate("Home");
- 
     dispatch(registerDB(state));
     setState(initialState);
   };
@@ -47,6 +46,24 @@ export const RegistrationScreen = ({ navigation }) => {
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
+
+  const { login, userId, photoURL } = useSelector((state) => state.auth);
+
+  const { authState } = useAuth();
+
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    })
+    if (!result.canceled) {
+      const photoURL = await uploadAvatarToServer(result.assets[0].uri);
+
+      dispatch(removeUserAvatar(photoURL));
+    } else {
+      alert('You did not select any image.');
+    }
+  }
 
   return (
     <ImageBackground
@@ -60,10 +77,17 @@ export const RegistrationScreen = ({ navigation }) => {
           keyboardVerticalOffset={Platform.OS === "ios" ? -165 : -165}
         >
           <View style={styles.containerForm}>
-            <Image
+            {/* <Image
               style={styles.image}
               source={require("./image/AddPhoto.png")}
-            />
+            /> */}
+            <View style={styles.infoUserThumb}>
+        <View style={styles.containerUser}>
+            <ImageUser style={styles.image} state={authState} onPress={pickImageAsync} />
+            {/* <Text style={{ fontFamily: 'Inter-Black', fontSize: 30, marginTop: 30}}>{login}</Text> */}
+            </View>
+          </View>
+      
             <Text style={styles.text}>Реєстрація</Text>
 
             <TextInput
@@ -143,6 +167,15 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 25,
     backgroundColor: "#FFFFFF",
     alignItems: "center",
+
+    // flex: 1,
+    // top: 200,
+    // paddingHorizontal: 16,
+    // borderTopStartRadius: 25,
+    // borderTopEndRadius: 25,
+    // backgroundColor: "#FFFFFF",
+    // alignItems: "center",
+    // justifyContent: 'center',
   },
   input: {
     padding: 16,
@@ -178,13 +211,13 @@ const styles = StyleSheet.create({
   textBtn: {
     color: "#FFFFFF",
   },
-  image: {
-    width: 132,
-    height: 120,
-    borderRadius: 16,
-    position: "absolute",
-    top: -60,
-  },
+  // image: {
+  //   width: 132,
+  //   height: 120,
+  //   borderRadius: 16,
+  //   position: "absolute",
+  //   top: -60,
+  // },
   textLogin: {
     color: "#1B4371",
     fontSize: 16,
@@ -199,4 +232,14 @@ const styles = StyleSheet.create({
     transform: [{ translateX: 50 }, { translateY: 17 }],
     fontFamily: "Inter-Black",
   },
-});
+  infoUserThumb: {
+    flex: 1,
+    width: '100%',
+    alignItems: "center",
+  },
+  containerUser: {
+    position: 'absolute',
+    transform: [{ translateX: 10 }, { translateY: -150 }], 
+  },
+})
+

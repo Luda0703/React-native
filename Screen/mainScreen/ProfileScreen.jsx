@@ -12,6 +12,7 @@ import { Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { ImageUser } from "../image/ImageUser";
 import { useAuth } from '../hooks/useAuth';
+import { authLogOut } from "../../Redax/auth/authOperations";
 
 export const ProfileScreen = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);

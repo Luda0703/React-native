@@ -1,7 +1,4 @@
 import React from "react";
-// import { useFonts } from "expo-font";
-// import { Text } from "react-native";
-// import { NavigationApp } from "./src/Screens/navigation/NavigationApp";
 
 import { Provider } from "react-redux";
 import { store } from "./Redax/store";
