@@ -10,7 +10,7 @@ import {
   Keyboard,
   ImageBackground,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginDB } from "../Redax/auth/authOperations";
 
@@ -20,6 +20,8 @@ const initialState = {
 };
 
 export const LoginScreen = ({ navigation }) => {
+  const [showPassword, setShowPassword] = useState(true);
+  const [displayText, setDisplaytext] = useState("Показати");
   const [isShowKeybord, setIsShowKeybord] = useState(false);
   const [state, setState] = useState(initialState);
 
@@ -37,7 +39,15 @@ export const LoginScreen = ({ navigation }) => {
   
   };
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setDisplaytext(showPassword ? "Показати" : "Приховати");
+  }, [displayText, showPassword]);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <ImageBackground
@@ -62,7 +72,7 @@ export const LoginScreen = ({ navigation }) => {
                 setState((prevState) => ({ ...prevState, email: value }))
               }
             />
-            <TextInput
+            {/* <TextInput
               style={styles.input}
               placeholder={"Пароль"}
               onFocus={() => setIsShowKeybord(true)}
@@ -71,7 +81,24 @@ export const LoginScreen = ({ navigation }) => {
                 setState((prevState) => ({ ...prevState, password: value }))
               }
               secureTextEntry={true}
+            /> */}
+            <View>
+            <TextInput
+              style={styles.input}
+              placeholder={"Пароль"}
+              value={state.password}
+              onChangeText={(value) =>
+                setState((prevState) => ({ ...prevState, password: value }))
+              }
+              onFocus={() => setIsShowKeybord(true)}
+              secureTextEntry={showPassword}
             />
+            <TouchableOpacity
+              style={styles.passwordShow}
+              onPress={handleTogglePassword}>
+              <Text>{displayText}</Text>
+            </TouchableOpacity>
+            </View>
             <TouchableOpacity style={styles.btn} onPress={keybordHide}>
               <Text style={styles.textBtn}>Увійти</Text>
             </TouchableOpacity>
@@ -155,6 +182,13 @@ const styles = StyleSheet.create({
     color: "#1B4371",
     fontSize: 16,
     textAlign: "center",
+    fontFamily: "Inter-Black",
+  },
+  passwordShow: {
+    position: "absolute",
+    top: 15,
+    right: 65,
+    transform: [{ translateX: 50 }, { translateY: 17 }],
     fontFamily: "Inter-Black",
   },
 });

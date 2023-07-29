@@ -47,7 +47,7 @@ export const RegistrationScreen = ({ navigation }) => {
     setShowPassword(!showPassword);
   };
 
-  const { login, userId, photoURL } = useSelector((state) => state.auth);
+  // const { login, userId, photoURL } = useSelector((state) => state.auth);
 
   const { authState } = useAuth();
 

@@ -16,8 +16,8 @@ import { collection, query, where, getDocs, onSnapshot, } from "firebase/firesto
 export const DefaultScreenPosts = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
 
-  const { login, userId, email, photoURL } = useSelector((state) => state.auth);
-  console.log("userId", userId)
+  const { login, userId, email } = useSelector((state) => state.auth);
+  // console.log("userId", userId)
 
 const getDataFromFirestore = async () => {
       const q = query(collection(db, "setPost"), where("userId", "==", userId));
@@ -35,7 +35,9 @@ const getDataFromFirestore = async () => {
   return (
     <View style={styles.container}>
        <View style={styles.containerUser}>
-              <Image source={{ uri: photoURL }} style={styles.photoUser} />
+              <Image 
+              // source={{ uri: photo }} 
+              style={styles.photoUser} />
               <View style={styles.userInfo}>
               <Text style={{ fontFamily: 'Inter-Black', fontSize: 13, marginBottom: 5, }}>
                 Name: {login}
@@ -69,7 +71,8 @@ const getDataFromFirestore = async () => {
               <View style={styles.infoThumb}>
                 <TouchableOpacity
                   style={styles.info}
-                  onPress={() => navigation.navigate("Коментарі", { postId: id, photo })}
+                  onPress={() => navigation.navigate("Коментарі", 
+                  { postId: id, photo})}
                 >
                   <Feather
                     name="message-circle"

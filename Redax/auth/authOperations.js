@@ -20,13 +20,13 @@ export const authStateChanged = () => async (dispach) =>{
 }
 
 
-export const registerDB = ({ login, email, password, photoURL }) => async (dispach) => {
+export const registerDB = ({ login, email, password}) => async (dispach) => {
   try {
     await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(auth.currentUser, {displayName: login, photoURL});
+    await updateProfile(auth.currentUser, {displayName: login});
     // console.log("auth.currentUser", auth.currentUser)
     const {displayName, uid} = auth.currentUser;
-    dispach(updateUser({userId: uid, login: displayName, email, photoURL}));
+    await dispach(updateUser({userId: uid, login: displayName, email}));
   } catch (error) {
     throw error;
   }

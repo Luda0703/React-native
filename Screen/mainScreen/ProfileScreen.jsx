@@ -25,7 +25,7 @@ export const ProfileScreen = ({ route, navigation }) => {
     dispatch(authLogOut());
   };
 
-  const { login, userId, photoURL } = useSelector((state) => state.auth);
+  const { login, userId } = useSelector((state) => state.auth);
 
 
 const getDataFromFirestore = async () => {
@@ -109,7 +109,8 @@ const getDataFromFirestore = async () => {
                 <View style={styles.infoThumb}>
                   <TouchableOpacity
                     style={styles.info}
-                    onPress={() => navigation.navigate("Коментарі")}
+                    onPress={() => navigation.navigate("Коментарі", 
+                  { postId: id, photo})}
                   >
                     <Feather
                       name="message-circle"
@@ -135,7 +136,11 @@ const getDataFromFirestore = async () => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.info}
-                    onPress={() => navigation.navigate("Карта")}
+                    onPress={() => navigation.navigate("Карта", {
+                      photo,
+                      namePost,
+                      location,
+                    })}
                   >
                     <Feather name="map-pin" size={24} color="#BDBDBD" />
                     <Text style={[{ ...styles.text, ...styles.locationText }]}>

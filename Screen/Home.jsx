@@ -7,7 +7,6 @@ import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import { authLogOut } from "../Redax/auth/authOperations";
-// import { PostsScreen } from './mainScreen/PostsScreen';
 
 const Tabs = createBottomTabNavigator();
 
@@ -66,7 +65,7 @@ export const Home = ({ navigation }) => {
         }}
         name="Публікації"
         component={DefaultScreenPosts}
-        // setTabBarStyle={setTabBarStyle} 
+        setTabBarStyle={setTabBarStyle} 
         />
       <Tabs.Screen
         options={{
