@@ -24,7 +24,6 @@ export const registerDB = ({ login, email, password}) => async (dispach) => {
   try {
     await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(auth.currentUser, {displayName: login});
-    // console.log("auth.currentUser", auth.currentUser)
     const {displayName, uid} = auth.currentUser;
     await dispach(updateUser({userId: uid, login: displayName, email}));
   } catch (error) {
@@ -50,36 +49,16 @@ export const authLogOut = () => async (dispatch) => {
     }
   };
 
-  export const removeUserAvatar = (photoURL) => async (dispatch) => {
-    try {
-      await updateProfile(auth.currentUser, { photoURL });
-  
-      await dispatch(
-        updateUserProfile({
-          userId: auth.currentUser.uid,
-          login: auth.currentUser.displayName,
-          photoURL,
-        })
-      );
-      console.log('user: ', user);
-    } catch (error) {
-      console.log('error: ', error, error.message);
+ const updateUserProfile = async (update) => {
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        await updateProfile(user, update);
+      } catch (error) {
+        throw error;
+      }
     }
   };
-  
 
-const updateUserProfile = async (update) => {
+ 
 
-  const user = auth.currentUser;
-
-  // якщо такий користувач знайдений
-  if (user) {
-
-  // оновлюємо його профайл
-        try {
-            await updateProfile(user, update);
-        } catch(error) {
-            throw error
-        }
-  }
-};

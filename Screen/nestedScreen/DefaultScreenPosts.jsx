@@ -11,22 +11,24 @@ import {
 import React from "react";
 import { Feather } from "@expo/vector-icons";
 import { db } from "../../config";
-import { collection, query, where, getDocs, onSnapshot, } from "firebase/firestore";
+import { collection, query, where, getDocs, orderBy, onSnapshot } from "firebase/firestore";
 
 export const DefaultScreenPosts = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
+  console.log('posts', posts)
 
   const { login, userId, email } = useSelector((state) => state.auth);
   // console.log("userId", userId)
 
 const getDataFromFirestore = async () => {
-      const q = query(collection(db, "setPost"), where("userId", "==", userId));
+      const q = query(collection(db, "setPost"),  where("userId", "==", userId));
 
       onSnapshot(q, (data) => {
         setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       });
  
   };
+  
 
   useEffect(() => {
     getDataFromFirestore();
@@ -36,6 +38,9 @@ const getDataFromFirestore = async () => {
     <View style={styles.container}>
        <View style={styles.containerUser}>
               <Image 
+              source={{
+                uri: "https://images.squarespace-cdn.com/content/v1/58d1b3ff1b631bb1893d108d/813f4928-6cc6-4bc8-a4e4-265f94b4d665/matthew-hamilton-tNCH0sKSZbA-unsplash.jpg",
+              }}
               // source={{ uri: photo }} 
               style={styles.photoUser} />
               <View style={styles.userInfo}>
@@ -58,6 +63,7 @@ const getDataFromFirestore = async () => {
             location,
             convertedCoordinate,
             commentsCount,
+            commentsQuantity,
           },
         }) => {
           return (
@@ -80,21 +86,25 @@ const getDataFromFirestore = async () => {
                     color="#BDBDBD"
                     style={[
                       { transform: [{ rotate: "-90deg" }] },
-                      commentsCount
+                      commentsQuantity
                         ? { color: "#FF6C00" }
                         : { color: "#BDBDBD" },
                     ]}
+
                   />
-                  <Text
+                  <Text>{commentsQuantity ? commentsQuantity : "0"}</Text>
+
+                  {/* <Text
                     style={[
                       styles.textComment,
-                      commentsCount
+                      commentsQuery
                         ? { color: "#212121" }
                         : { color: "#BDBDBD" },
                     ]}
                   >
-                    {commentsCount}
-                  </Text>
+                    
+                    {commentsQuery}
+                  </Text> */}
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.info}
@@ -122,6 +132,7 @@ const getDataFromFirestore = async () => {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    width: '100%',
     height: "100%",
     backgroundColor: "#ffffff",
   },
@@ -163,5 +174,14 @@ const styles = StyleSheet.create({
   userInfo: {
     marginLeft: 8,
     justifyContent: 'center',
-  }
+  },
+  textComment: {
+    fontFamily: "Inter-Black",
+    fontSize: 16,
+    color: '#BDBDBD',
+  },
+  locationText: {
+    fontFamily: "Inter-Black",
+    textDecorationLine: 'underline',
+  },
 });

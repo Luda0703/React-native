@@ -23,47 +23,92 @@ import { AntDesign } from '@expo/vector-icons';
 import { db } from '../../config';
 import { useAuth } from '../hooks/useAuth';
 import { commentDate} from '../../Redax/utils/commentDate'
+import { format, utcToZonedTime } from "date-fns-tz";
+import { uk } from "date-fns/locale";
 
 export const CommentsScreen = ({ route, navigation }) => {
   const [comment, setComment] = useState('');
-  const [allComments, setAllComments] = useState([]);
+  // const [allComments, setAllComments] = useState([]);
+  const [massege, setMassege] = useState([])
   const { postId, photo } = route.params;
 
   const {
     authState: { login, userId },
   } = useAuth();
 
+  const addMassege = () => {
+    uploadPostToServer();
+    setComment("")
+  }
+
+  const uploadPostToServer = async () => {
+    const date = new Date();
+    const nyDate = utcToZonedTime(date, "Europe/Kiev");
+    const dataPost = format(nyDate, "yyyy-MM-dd HH:mm:ss zzz", {
+      locale: uk,
+    });
+    await addDoc(collection(db, `setPost`, postId, "setComents"), {
+      comment,
+      login,
+      autorCommentId: userId,
+      dataPost,
+    });
+    const commentRef = doc(db, `setPost`, postId);
+    await setDoc(
+      commentRef,
+      { commentsQuantity: massege.length + 1 },
+      { merge: true },
+      { capital: true },
+    );
+  };
+  const getAllComments = async () => {
+    const commentsQuery = query(
+      collection(db, "setPost", postId, "setComents"),
+      orderBy("dataPost")
+    );
+    onSnapshot(commentsQuery, (data) => {
+      setMassege(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    });
+  };
   useEffect(() => {
-    getCommentToPost(setAllComments);
+    getAllComments();
   }, []);
 
 
-  const addCommentToPost = async (postId, commentData) => {
-    try {
-      const postRef = doc(db, 'posts', postId);
-      const commentsCollectionRef = collection(postRef, 'comments');
 
-      const commentRef = await addDoc(commentsCollectionRef, {
-        ...commentData,
-      });
 
-      return commentRef;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const getCommentToPost = async (setAllComments) => {
-    const postRef = doc(db, 'posts', postId);
+  // useEffect(() => {
+  //   getCommentToPost(setAllComments);
+  // }, []);
 
-    onSnapshot(
-      query(collection(postRef, 'comments'), orderBy('commentDate')),
-      (snapshot) =>
-        setAllComments(
-          snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        )
-    );
-  };
+
+  // const addCommentToPost = async (postId, commentData) => {
+  //   try {
+  //     const postRef = doc(db, 'setPost', postId);
+  //     const commentsCollectionRef = collection(postRef, 'comments');
+
+  //     const commentRef = await addDoc(commentsCollectionRef, {
+  //       ...commentData,
+  //     });
+
+  //     return commentRef;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // const getCommentToPost = async (setAllComments) => {
+  //   const postRef = doc(db, 'setPost', postId);
+
+  //   onSnapshot(
+  //     query(collection(postRef, 'comments'), orderBy('commentDate')),
+  //     (snapshot) =>
+  //       setAllComments(
+  //         snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+  //       )
+  //   );
+  // };
 
   return (
     <View style={styles.container}>
@@ -75,7 +120,7 @@ export const CommentsScreen = ({ route, navigation }) => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 150 : 0}
       >
         <FlatList
-          data={allComments}
+          data={massege}
           renderItem={({ item }) => (
             <View
               style={
@@ -122,18 +167,19 @@ export const CommentsScreen = ({ route, navigation }) => {
           />
           <TouchableOpacity
             style={styles.sendComment}
-            onPress={() => {
-              if (comment !== '') {
-                addCommentToPost(postId, {
-                  userId,
-                  login,
-                  comment,
-                  commentDate: commentDate(Date.now()),
-                });
-                setComment('');
-                Keyboard.dismiss();
-              }
-            }}
+            onPress={addMassege}
+            // onPress={() => {
+            //   if (comment !== '') {
+            //     addCommentToPost(postId, {
+            //       userId,
+            //       login,
+            //       comment,
+            //       commentDate: commentDate(Date.now()),
+            //     });
+            //     setComment('');
+            //     Keyboard.dismiss();
+            //   }
+            // }}
           >
             <AntDesign
               name="arrowup"

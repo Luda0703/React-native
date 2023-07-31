@@ -27,17 +27,20 @@ export const CreatePostsScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
 
   const {userId, login} = useSelector(state => state.auth);
-  console.log(userId, login)
+  // console.log(userId, login)
+
 
   const createSetPost = async () => {
-// Add a new document with a generated id.
-await addDoc(collection(db, "setPost"), {
+
+await addDoc(collection(db, `setPost`), {
   userId,
   login,
   photo,
   location,
    namePost,
   convertedCoordinate,
+  createdDate,
+  
 });
   }
 
@@ -65,12 +68,14 @@ await addDoc(collection(db, "setPost"), {
   };
 
   const sendPhoto = async () => {
-    navigation.navigate("Публікації", {
-      photo,
-      location,
-      namePost,
-      convertedCoordinate,
-    });
+    navigation.navigate("Публікації", 
+    // {
+    //   photo,
+    //   location,
+    //   namePost,
+    //   convertedCoordinate,
+    // }
+    );
     createSetPost();
     setPhoto(null);
     setLocation(null);

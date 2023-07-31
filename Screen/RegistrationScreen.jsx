@@ -77,14 +77,10 @@ export const RegistrationScreen = ({ navigation }) => {
           keyboardVerticalOffset={Platform.OS === "ios" ? -165 : -165}
         >
           <View style={styles.containerForm}>
-            {/* <Image
-              style={styles.image}
-              source={require("./image/AddPhoto.png")}
-            /> */}
-            <View style={styles.infoUserThumb}>
-        <View style={styles.containerUser}>
-            <ImageUser style={styles.image} state={authState} onPress={pickImageAsync} />
-            {/* <Text style={{ fontFamily: 'Inter-Black', fontSize: 30, marginTop: 30}}>{login}</Text> */}
+          <View style={styles.avatarImg}>
+            <View style={styles.avatar}></View>
+            <View>
+              <ImageUser style={styles.addSvg}/>
             </View>
           </View>
       
@@ -160,7 +156,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   containerForm: {
-    paddingTop: 92,
+    // paddingTop: 92,
     paddingBottom: 78,
     paddingHorizontal: 16,
     borderTopStartRadius: 25,
@@ -191,7 +187,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     fontWeight: 500,
     fontSize: 30,
-    marginTop: 20,
+    // marginTop: 20,
     fontFamily: "Inter-Black",
     lineHeight: 35,
   },
@@ -240,6 +236,24 @@ const styles = StyleSheet.create({
   containerUser: {
     position: 'absolute',
     transform: [{ translateX: 10 }, { translateY: -150 }], 
+  },
+  addSvg: {
+    width: 25,
+    height: 25,
+    position: "absolute",
+    top: "10%",
+    transform: [{ translateX: 107 }, { translateY: -40 }],
+  },
+
+  avatar: {
+    width: 120,
+    height: 120,
+    backgroundColor: "#F6F6F6",
+    borderRadius: 16,
+  },
+  avatarImg: {
+    position: "relative",
+    transform: [{ translateX: 0 }, { translateY: -60 }],
   },
 })
 
