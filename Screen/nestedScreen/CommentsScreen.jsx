@@ -18,6 +18,7 @@ import {
   doc,
   query,
   orderBy,
+  setDoc
 } from 'firebase/firestore';
 import { AntDesign } from '@expo/vector-icons';
 import { db } from '../../config';
@@ -121,7 +122,12 @@ export const CommentsScreen = ({ route, navigation }) => {
       >
         <FlatList
           data={massege}
-          renderItem={({ item }) => (
+          renderItem={({ item
+            // userId, 
+            // comment,
+            // commentDate,
+
+          }) => (
             <View
               style={
                 userId === item.userId

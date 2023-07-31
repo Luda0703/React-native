@@ -15,7 +15,7 @@ import { collection, query, where, getDocs, orderBy, onSnapshot } from "firebase
 
 export const DefaultScreenPosts = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
-  // console.log('posts', posts)
+  console.log('posts', posts)
 
   const { login, userId, email } = useSelector((state) => state.auth);
   // console.log("userId", userId)

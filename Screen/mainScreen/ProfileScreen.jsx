@@ -12,16 +12,13 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { ImageUser } from "../image/ImageUser";
-// import { useAuth } from '../hooks/useAuth';
 import { authLogOut } from "../../Redax/auth/authOperations";
 import { collection, query, where, getDocs, orderBy, onSnapshot } from "firebase/firestore";
-import { db } from '../../config'
+import { db } from '../../config';
 
 export const ProfileScreen = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
-
   const { login, userId, email } = useSelector((state) => state.auth);
-  console.log("userId", login, userId)
 
   const getDataFromFirestore = async () => {
     const q = query(collection(db, `setPost`), where("userId", "==", userId));
@@ -36,28 +33,12 @@ useEffect(() => {
   getDataFromFirestore();
 }, []);
 
-  // const { authState } = useAuth();
-
   const dispatch = useDispatch();
 
   const logOut = () => {
     dispatch(authLogOut());
   };
 
-  // const pickImageAsync = async () => {
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     allowsEditing: true,
-  //     quality: 1,
-  //   });
-
-  //   if (!result.canceled) {
-  //     const photoURL = await uploadAvatarToServer(result.assets[0].uri);
-
-  //     dispatch(removeUserAvatar(photoURL));
-  //   } else {
-  //     alert('You did not select any image.');
-  //   }
-  // };
 
   return (
     <View style={styles.container}>
@@ -101,7 +82,7 @@ useEffect(() => {
                 namePost,
                 location,
                 convertedCoordinate,
-                commentsCount,
+                commentsQuantity,
               },
             }) => {
               return (
@@ -124,21 +105,12 @@ useEffect(() => {
                         color="#BDBDBD"
                         style={[
                           { transform: [{ rotate: "-90deg" }] },
-                          commentsCount
+                          commentsQuantity
                             ? { color: "#FF6C00" }
                             : { color: "#BDBDBD" },
                         ]}
                       />
-                      <Text
-                        style={[
-                          styles.textComment,
-                          commentsCount
-                            ? { color: "#212121" }
-                            : { color: "#BDBDBD" },
-                        ]}
-                      >
-                        {commentsCount}
-                      </Text>
+                      <Text>{commentsQuantity ? commentsQuantity : "0"}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.info}
@@ -217,10 +189,6 @@ const styles = StyleSheet.create({
     width: " 100%",
     justifyContent: "center",
     alignItems: "center",
-    // padding: 10,
-    // width: '100%',
-    // height: "100%",
-    // backgroundColor: "#ffffff",
   },
   userNameContainer: {
     justifyContent: "center",
@@ -231,9 +199,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
     marginBottom: 10,
   },
-  // subContainer: {
-  //   marginBottom: 32,
-  // },
+  subContainer: {
+    // marginBottom: 32,
+  },
   image: {
     height: 240,
     borderRadius: 8,
