@@ -12,10 +12,10 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch,} from "react-redux";
 import { registerDB } from "../Redax/auth/authOperations"; 
 import { ImageUser } from "./image/ImageUser";
-import { useAuth } from "./hooks/useAuth";
+// import { useAuth } from "./hooks/useAuth";
 
 const initialState = {
   login: "",
@@ -47,24 +47,6 @@ export const RegistrationScreen = ({ navigation }) => {
     setShowPassword(!showPassword);
   };
 
-  // const { login, userId, photoURL } = useSelector((state) => state.auth);
-
-  const { authState } = useAuth();
-
-  const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      quality: 1,
-    })
-    if (!result.canceled) {
-      const photoURL = await uploadAvatarToServer(result.assets[0].uri);
-
-      dispatch(removeUserAvatar(photoURL));
-    } else {
-      alert('You did not select any image.');
-    }
-  }
-
   return (
     <ImageBackground
       source={require("./image/photoApp.png")}
@@ -80,12 +62,10 @@ export const RegistrationScreen = ({ navigation }) => {
           <View style={styles.avatarImg}>
             <View style={styles.avatar}></View>
             <View>
-              <ImageUser style={styles.addSvg}/>
+              <ImageUser style={styles.addPhoto}/>
             </View>
           </View>
-      
             <Text style={styles.text}>Реєстрація</Text>
-
             <TextInput
               style={styles.input}
               placeholder={"Логін"}
@@ -104,7 +84,6 @@ export const RegistrationScreen = ({ navigation }) => {
               }
               onFocus={() => setIsShowKeybord(true)}
             />
-             
              <View>
             <TextInput
               style={styles.input}
@@ -156,22 +135,12 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   containerForm: {
-    // paddingTop: 92,
     paddingBottom: 78,
     paddingHorizontal: 16,
     borderTopStartRadius: 25,
     borderTopEndRadius: 25,
     backgroundColor: "#FFFFFF",
     alignItems: "center",
-
-    // flex: 1,
-    // top: 200,
-    // paddingHorizontal: 16,
-    // borderTopStartRadius: 25,
-    // borderTopEndRadius: 25,
-    // backgroundColor: "#FFFFFF",
-    // alignItems: "center",
-    // justifyContent: 'center',
   },
   input: {
     padding: 16,
@@ -187,7 +156,6 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     fontWeight: 500,
     fontSize: 30,
-    // marginTop: 20,
     fontFamily: "Inter-Black",
     lineHeight: 35,
   },
@@ -207,13 +175,6 @@ const styles = StyleSheet.create({
   textBtn: {
     color: "#FFFFFF",
   },
-  // image: {
-  //   width: 132,
-  //   height: 120,
-  //   borderRadius: 16,
-  //   position: "absolute",
-  //   top: -60,
-  // },
   textLogin: {
     color: "#1B4371",
     fontSize: 16,
@@ -237,14 +198,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     transform: [{ translateX: 10 }, { translateY: -150 }], 
   },
-  addSvg: {
+  addPhoto: {
     width: 25,
     height: 25,
     position: "absolute",
     top: "10%",
     transform: [{ translateX: 107 }, { translateY: -40 }],
   },
-
   avatar: {
     width: 120,
     height: 120,

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,9 +8,8 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  Keyboard,
   FlatList,
-} from 'react-native';
+} from "react-native";
 import {
   collection,
   addDoc,
@@ -18,19 +17,17 @@ import {
   doc,
   query,
   orderBy,
-  setDoc
-} from 'firebase/firestore';
-import { AntDesign } from '@expo/vector-icons';
-import { db } from '../../config';
-import { useAuth } from '../hooks/useAuth';
-import { commentDate} from '../../Redax/utils/commentDate'
+  setDoc,
+} from "firebase/firestore";
+import { AntDesign } from "@expo/vector-icons";
+import { db } from "../../config";
+import { useAuth } from "../hooks/useAuth";
 import { format, utcToZonedTime } from "date-fns-tz";
 import { uk } from "date-fns/locale";
 
 export const CommentsScreen = ({ route, navigation }) => {
-  const [comment, setComment] = useState('');
-  // const [allComments, setAllComments] = useState([]);
-  const [massege, setMassege] = useState([])
+  const [comment, setComment] = useState("");
+  const [massege, setMassege] = useState([]);
   const { postId, photo } = route.params;
 
   const {
@@ -39,8 +36,8 @@ export const CommentsScreen = ({ route, navigation }) => {
 
   const addMassege = () => {
     uploadPostToServer();
-    setComment("")
-  }
+    setComment("");
+  };
 
   const uploadPostToServer = async () => {
     const date = new Date();
@@ -59,7 +56,7 @@ export const CommentsScreen = ({ route, navigation }) => {
       commentRef,
       { commentsQuantity: massege.length + 1 },
       { merge: true },
-      { capital: true },
+      { capital: true }
     );
   };
   const getAllComments = async () => {
@@ -75,59 +72,18 @@ export const CommentsScreen = ({ route, navigation }) => {
     getAllComments();
   }, []);
 
-
-
-
-
-  // useEffect(() => {
-  //   getCommentToPost(setAllComments);
-  // }, []);
-
-
-  // const addCommentToPost = async (postId, commentData) => {
-  //   try {
-  //     const postRef = doc(db, 'setPost', postId);
-  //     const commentsCollectionRef = collection(postRef, 'comments');
-
-  //     const commentRef = await addDoc(commentsCollectionRef, {
-  //       ...commentData,
-  //     });
-
-  //     return commentRef;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const getCommentToPost = async (setAllComments) => {
-  //   const postRef = doc(db, 'setPost', postId);
-
-  //   onSnapshot(
-  //     query(collection(postRef, 'comments'), orderBy('commentDate')),
-  //     (snapshot) =>
-  //       setAllComments(
-  //         snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-  //       )
-  //   );
-  // };
-
   return (
     <View style={styles.container}>
       <Image source={{ uri: photo }} style={styles.image} />
 
       <KeyboardAvoidingView
         style={styles.subContainer}
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 150 : 0}
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 150 : 0}
       >
         <FlatList
           data={massege}
-          renderItem={({ item
-            // userId, 
-            // comment,
-            // commentDate,
-
-          }) => (
+          renderItem={({ item }) => (
             <View
               style={
                 userId === item.userId
@@ -136,7 +92,9 @@ export const CommentsScreen = ({ route, navigation }) => {
               }
             >
               <Image
-                // source={{ uri: item.photo }}
+                source={{
+                  uri: "https://klike.net/uploads/posts/2020-06/1591514925_2.jpg",
+                }}
                 style={{ width: 28, height: 28, borderRadius: 28 }}
               />
               <View
@@ -152,8 +110,8 @@ export const CommentsScreen = ({ route, navigation }) => {
                   style={[
                     styles.commentDate,
                     userId === item.userId
-                      ? { textAlign: 'left' }
-                      : { textAlign: 'right' },
+                      ? { textAlign: "left" }
+                      : { textAlign: "right" },
                   ]}
                 >
                   {item.commentDate}
@@ -171,22 +129,7 @@ export const CommentsScreen = ({ route, navigation }) => {
             value={comment}
             onChangeText={setComment}
           />
-          <TouchableOpacity
-            style={styles.sendComment}
-            onPress={addMassege}
-            // onPress={() => {
-            //   if (comment !== '') {
-            //     addCommentToPost(postId, {
-            //       userId,
-            //       login,
-            //       comment,
-            //       commentDate: commentDate(Date.now()),
-            //     });
-            //     setComment('');
-            //     Keyboard.dismiss();
-            //   }
-            // }}
-          >
+          <TouchableOpacity style={styles.sendComment} onPress={addMassege}>
             <AntDesign
               name="arrowup"
               size={26}
@@ -204,14 +147,13 @@ export const CommentsScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
-    // marginTop: 32,
+    backgroundColor: "#FFFFFF",
     marginBottom: 25,
     paddingHorizontal: 16,
   },
   subContainer: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   image: {
     height: 240,
@@ -220,37 +162,37 @@ const styles = StyleSheet.create({
   },
   listContainer: {},
   inputWrapper: {
-    position: 'relative',
+    position: "relative",
   },
   infoUserCommentThumb: {
-    flexDirection: 'row-reverse',
+    flexDirection: "row-reverse",
     gap: 16,
     marginBottom: 24,
   },
   infoCommentThumb: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 16,
     marginBottom: 24,
   },
   infoComment: {
-    width: '85%',
-    height: 'auto',
+    width: "85%",
+    height: "auto",
     padding: 16,
     borderRadius: 6,
-    backgroundColor: 'rgba(0, 0, 0, 0.03)',
+    backgroundColor: "rgba(0, 0, 0, 0.03)",
   },
   commentText: {
     marginBottom: 8,
     fontFamily: "Inter-Black",
     fontSize: 13,
     lineHeight: 18,
-    color: '#212121',
+    color: "#212121",
   },
   commentDate: {
     fontFamily: "Inter-Black",
     fontSize: 10,
-    color: '#BDBDBD',
-    textAlign: 'right',
+    color: "#BDBDBD",
+    textAlign: "right",
   },
   inputComment: {
     paddingVertical: 16,
@@ -258,10 +200,10 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 50,
     height: 50,
-    backgroundColor: '#F6F6F6',
+    backgroundColor: "#F6F6F6",
     borderRadius: 50,
     fontSize: 16,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 4,
@@ -271,11 +213,10 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   sendComment: {
-    position: 'absolute',
+    position: "absolute",
     top: 8,
     right: 8,
-
     borderRadius: 50,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
 });

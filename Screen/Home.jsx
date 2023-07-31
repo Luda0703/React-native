@@ -53,7 +53,6 @@ export const Home = ({ navigation }) => {
           headerRight: () => (
             <TouchableOpacity
               style={{ marginRight: 16, marginBottom: 10 }}
-              // onPress={() => navigation.navigate("Login")}
               onPress={logOut}
             >
               <Feather name="log-out" size={24} color="#BDBDBD" />
@@ -65,24 +64,38 @@ export const Home = ({ navigation }) => {
         }}
         name="Публікації"
         component={DefaultScreenPosts}
-        setTabBarStyle={setTabBarStyle} 
-        />
+        setTabBarStyle={setTabBarStyle}
+      />
       <Tabs.Screen
         options={{
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ marginRight: 16, marginBottom: 10 }}
+              onPress={() => navigation.goBack()}
+            >
+              <Feather
+                name="arrow-left"
+                size={24}
+                color="#212121"
+                marginLeft={16}
+              />
+            </TouchableOpacity>
+          ),
           tabBarIcon: ({ color }) => (
             <Feather name="plus" size={24} color={color} />
           ),
+          tabBarStyle: { display: "none" },
         }}
         name="Створити публікацію"
         component={CreatePostsScreen}
       />
       <Tabs.Screen
-      options={{ 
-        tabBarIcon: ({ color }) => (
-          <Feather name="user" size={24} color={color} />
-        ),
-         headerShown: false
-      }}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Feather name="user" size={24} color={color} />
+          ),
+          headerShown: false,
+        }}
         name="Профіль"
         component={ProfileScreen}
       />

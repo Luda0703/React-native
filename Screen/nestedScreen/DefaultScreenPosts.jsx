@@ -1,4 +1,4 @@
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   Text,
@@ -11,24 +11,25 @@ import {
 import React from "react";
 import { Feather } from "@expo/vector-icons";
 import { db } from "../../config";
-import { collection, query, where, getDocs, orderBy, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
 
 export const DefaultScreenPosts = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
-  console.log('posts', posts)
 
   const { login, userId, email } = useSelector((state) => state.auth);
-  // console.log("userId", userId)
 
-const getDataFromFirestore = async () => {
-      const q = query(collection(db, `setPost`),  where("userId", "==", userId));
+  const getDataFromFirestore = async () => {
+    const q = query(collection(db, `setPost`), where("userId", "==", userId));
 
-      onSnapshot(q, (data) => {
-        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      });
- 
+    onSnapshot(q, (data) => {
+      setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    });
   };
-  
 
   useEffect(() => {
     getDataFromFirestore();
@@ -36,22 +37,24 @@ const getDataFromFirestore = async () => {
 
   return (
     <View style={styles.container}>
-       <View style={styles.containerUser}>
-              <Image 
-              source={{
-                uri: "https://images.squarespace-cdn.com/content/v1/58d1b3ff1b631bb1893d108d/813f4928-6cc6-4bc8-a4e4-265f94b4d665/matthew-hamilton-tNCH0sKSZbA-unsplash.jpg",
-              }}
-              // source={{ uri: photo }} 
-              style={styles.photoUser} />
-              <View style={styles.userInfo}>
-              <Text style={{ fontFamily: 'Inter-Black', fontSize: 13, marginBottom: 5, }}>
-                Name: {login}
-              </Text>
-              <Text style={{ fontFamily: 'Inter-Black', fontSize: 13,}}>
-                email: {email}
-              </Text>
-              </View>
+      <View style={styles.containerUser}>
+        <Image
+          source={{
+            uri: "https://klike.net/uploads/posts/2020-06/1591514925_2.jpg",
+          }}
+          style={styles.photoUser}
+        />
+        <View style={styles.userInfo}>
+          <Text
+            style={{ fontFamily: "Inter-Black", fontSize: 13, marginBottom: 5 }}
+          >
+            Name: {login}
+          </Text>
+          <Text style={{ fontFamily: "Inter-Black", fontSize: 13 }}>
+            email: {email}
+          </Text>
         </View>
+      </View>
       <FlatList
         data={posts}
         keyExtractor={(item) => item.id}
@@ -62,7 +65,6 @@ const getDataFromFirestore = async () => {
             namePost,
             location,
             convertedCoordinate,
-            commentsCount,
             commentsQuantity,
           },
         }) => {
@@ -77,8 +79,9 @@ const getDataFromFirestore = async () => {
               <View style={styles.infoThumb}>
                 <TouchableOpacity
                   style={styles.info}
-                  onPress={() => navigation.navigate("Коментарі", 
-                  { postId: id, photo})}
+                  onPress={() =>
+                    navigation.navigate("Коментарі", { postId: id, photo })
+                  }
                 >
                   <Feather
                     name="message-circle"
@@ -90,29 +93,18 @@ const getDataFromFirestore = async () => {
                         ? { color: "#FF6C00" }
                         : { color: "#BDBDBD" },
                     ]}
-
                   />
                   <Text>{commentsQuantity ? commentsQuantity : "0"}</Text>
-
-                  {/* <Text
-                    style={[
-                      styles.textComment,
-                      commentsQuery
-                        ? { color: "#212121" }
-                        : { color: "#BDBDBD" },
-                    ]}
-                  >
-                    
-                    {commentsQuery}
-                  </Text> */}
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.info}
-                  onPress={() => navigation.navigate("Карта", {
-                    photo,
-                    namePost,
-                    location,
-                  })}
+                  onPress={() =>
+                    navigation.navigate("Карта", {
+                      photo,
+                      namePost,
+                      location,
+                    })
+                  }
                 >
                   <Feather name="map-pin" size={24} color="#BDBDBD" />
                   <Text style={[{ ...styles.text, ...styles.locationText }]}>
@@ -121,7 +113,6 @@ const getDataFromFirestore = async () => {
                 </TouchableOpacity>
               </View>
             </View>
-            
           );
         }}
       />
@@ -132,7 +123,7 @@ const getDataFromFirestore = async () => {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    width: '100%',
+    width: "100%",
     height: "100%",
     backgroundColor: "#ffffff",
   },
@@ -169,19 +160,19 @@ const styles = StyleSheet.create({
     marginTop: 32,
     marginBottom: 32,
     paddingHorizontal: 16,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   userInfo: {
     marginLeft: 8,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   textComment: {
     fontFamily: "Inter-Black",
     fontSize: 16,
-    color: '#BDBDBD',
+    color: "#BDBDBD",
   },
   locationText: {
     fontFamily: "Inter-Black",
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
   },
 });

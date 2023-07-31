@@ -1,4 +1,4 @@
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, addDoc } from "firebase/firestore";
 import {
   Text,
   View,
@@ -26,21 +26,18 @@ export const CreatePostsScreen = ({ navigation }) => {
   const [namePost, setNamePost] = useState("");
   const [hasPermission, setHasPermission] = useState(null);
 
-  const {userId, login} = useSelector(state => state.auth);
-  // console.log(userId, login)
+  const { userId, login } = useSelector((state) => state.auth);
 
-
-const createSetPost = async () => {
-await addDoc(collection(db, `setPost`), {
-  userId,
-  login,
-  photo,
-  location,
-   namePost,
-  convertedCoordinate,
-  // createdDate,
-});
-  }
+  const createSetPost = async () => {
+    await addDoc(collection(db, `setPost`), {
+      userId,
+      login,
+      photo,
+      location,
+      namePost,
+      convertedCoordinate,
+    });
+  };
 
   useEffect(() => {
     (async () => {
@@ -66,14 +63,12 @@ await addDoc(collection(db, `setPost`), {
   };
 
   const sendPhoto = async () => {
-    navigation.navigate("Публікації", 
-    {
+    navigation.navigate("Публікації", {
       photo,
       location,
       namePost,
       convertedCoordinate,
-    }
-    );
+    });
     createSetPost();
     setPhoto(null);
     setLocation(null);
@@ -227,7 +222,7 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 16,
     paddingHorizontal: 32,
-    marginTop: 32,
+    marginTop: 40,
     borderRadius: 100,
     backgroundColor: "#F6F6F6",
     color: "#BDBDBD",
@@ -265,7 +260,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonDelete: {
-    marginTop: 150,
+    marginTop: 200,
     justifyContent: "center",
     alignItems: "center",
     width: 70,

@@ -29,14 +29,11 @@ export const LoginScreen = ({ navigation }) => {
     e.preventDefault();
     setIsShowKeybord(false);
     Keyboard.dismiss();
-    // console.log(state);
-    // navigation.navigate("Home");
-   
     dispatch(loginDB(state));
     setState({
       email: "",
-    password: "",});
-  
+      password: "",
+    });
   };
 
   const dispatch = useDispatch();
@@ -72,32 +69,23 @@ export const LoginScreen = ({ navigation }) => {
                 setState((prevState) => ({ ...prevState, email: value }))
               }
             />
-            {/* <TextInput
-              style={styles.input}
-              placeholder={"Пароль"}
-              onFocus={() => setIsShowKeybord(true)}
-              value={state.password}
-              onChangeText={(value) =>
-                setState((prevState) => ({ ...prevState, password: value }))
-              }
-              secureTextEntry={true}
-            /> */}
             <View>
-            <TextInput
-              style={styles.input}
-              placeholder={"Пароль"}
-              value={state.password}
-              onChangeText={(value) =>
-                setState((prevState) => ({ ...prevState, password: value }))
-              }
-              onFocus={() => setIsShowKeybord(true)}
-              secureTextEntry={showPassword}
-            />
-            <TouchableOpacity
-              style={styles.passwordShow}
-              onPress={handleTogglePassword}>
-              <Text>{displayText}</Text>
-            </TouchableOpacity>
+              <TextInput
+                style={styles.input}
+                placeholder={"Пароль"}
+                value={state.password}
+                onChangeText={(value) =>
+                  setState((prevState) => ({ ...prevState, password: value }))
+                }
+                onFocus={() => setIsShowKeybord(true)}
+                secureTextEntry={showPassword}
+              />
+              <TouchableOpacity
+                style={styles.passwordShow}
+                onPress={handleTogglePassword}
+              >
+                <Text>{displayText}</Text>
+              </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.btn} onPress={keybordHide}>
               <Text style={styles.textBtn}>Увійти</Text>

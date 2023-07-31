@@ -7,25 +7,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
 export default function Main() {
+  const { stateChange } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-  const {stateChange} = useSelector((state) => state.auth);
-  // console.log('stateChange', stateChange)
-   const dispatch = useDispatch();
-
-    useEffect(() => {
-      dispatch(authStateChanged())
-    }, [])
-  
+  useEffect(() => {
+    dispatch(authStateChanged());
+  }, []);
 
   const routing = Router(stateChange);
-  // const routing = Router()
 
   return (
-
     <NavigationContainer style={styles.container}>
       {routing}
     </NavigationContainer>
-
   );
 }
 

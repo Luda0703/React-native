@@ -7,14 +7,18 @@ import {
   Image,
   FlatList,
   ImageBackground,
- 
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { ImageUser } from "../image/ImageUser";
 import { authLogOut } from "../../Redax/auth/authOperations";
-import { collection, query, where, getDocs, orderBy, onSnapshot } from "firebase/firestore";
-import { db } from '../../config';
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
+import { db } from "../../config";
 
 export const ProfileScreen = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
@@ -26,12 +30,11 @@ export const ProfileScreen = ({ route, navigation }) => {
     onSnapshot(q, (data) => {
       setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     });
+  };
 
-};
-
-useEffect(() => {
-  getDataFromFirestore();
-}, []);
+  useEffect(() => {
+    getDataFromFirestore();
+  }, []);
 
   const dispatch = useDispatch();
 
@@ -39,23 +42,16 @@ useEffect(() => {
     dispatch(authLogOut());
   };
 
-
   return (
     <View style={styles.container}>
       <ImageBackground
         style={styles.backImage}
-        source={require("../image/photoApp.png")}>
+        source={require("../image/photoApp.png")}
+      >
         <View style={styles.containerForm}>
           <View style={styles.avatarImg}>
-            {/* <View style={styles.avatar}></View> */}
-            <Image 
-              source={{
-                uri: "https://images.squarespace-cdn.com/content/v1/58d1b3ff1b631bb1893d108d/813f4928-6cc6-4bc8-a4e4-265f94b4d665/matthew-hamilton-tNCH0sKSZbA-unsplash.jpg",
-              }}
-              // source={{ uri: photo }} 
-              style={styles.avatar} />
+            <View style={styles.avatar}></View>
             <View>
-            
               <ImageUser style={styles.addSvg}></ImageUser>
               <Feather
                 name="log-out"
@@ -65,7 +61,6 @@ useEffect(() => {
                 onPress={logOut}
               />
             </View>
-            
           </View>
           <View style={styles.userNameContainer}>
             <Text style={styles.userText}>{login}</Text>
@@ -73,77 +68,78 @@ useEffect(() => {
 
           {posts.length > 0 && (
             <FlatList
-            data={posts}
-            keyExtractor={(item) => item.id}
-            renderItem={({
-              item: {
-                id,
-                photo,
-                namePost,
-                location,
-                convertedCoordinate,
-                commentsQuantity,
-              },
-            }) => {
-              return (
-                <View style={styles.subContainer}>
-                  <View style={styles.imageContainer}>
-                    <Image source={{ uri: photo }} style={styles.image} />
+              data={posts}
+              keyExtractor={(item) => item.id}
+              renderItem={({
+                item: {
+                  id,
+                  photo,
+                  namePost,
+                  location,
+                  convertedCoordinate,
+                  commentsQuantity,
+                },
+              }) => {
+                return (
+                  <View style={styles.subContainer}>
+                    <View style={styles.imageContainer}>
+                      <Image source={{ uri: photo }} style={styles.image} />
+                    </View>
+                    <Text style={[{ ...styles.text, ...styles.namePost }]}>
+                      {namePost}
+                    </Text>
+                    <View style={styles.infoThumb}>
+                      <TouchableOpacity
+                        style={styles.info}
+                        onPress={() =>
+                          navigation.navigate("Коментарі", {
+                            postId: id,
+                            photo,
+                          })
+                        }
+                      >
+                        <Feather
+                          name="message-circle"
+                          size={24}
+                          color="#BDBDBD"
+                          style={[
+                            { transform: [{ rotate: "-90deg" }] },
+                            commentsQuantity
+                              ? { color: "#FF6C00" }
+                              : { color: "#BDBDBD" },
+                          ]}
+                        />
+                        <Text>{commentsQuantity ? commentsQuantity : "0"}</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.info}
+                        onPress={() =>
+                          navigation.navigate("Карта", {
+                            photo,
+                            namePost,
+                            location,
+                          })
+                        }
+                      >
+                        <Feather name="map-pin" size={24} color="#BDBDBD" />
+                        <Text
+                          style={[{ ...styles.text, ...styles.locationText }]}
+                        >
+                          {convertedCoordinate}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                  <Text style={[{ ...styles.text, ...styles.namePost }]}>
-                    {namePost}
-                  </Text>
-                  <View style={styles.infoThumb}>
-                    <TouchableOpacity
-                      style={styles.info}
-                      onPress={() => navigation.navigate("Коментарі", 
-                      { postId: id, photo})}
-                    >
-                      <Feather
-                        name="message-circle"
-                        size={24}
-                        color="#BDBDBD"
-                        style={[
-                          { transform: [{ rotate: "-90deg" }] },
-                          commentsQuantity
-                            ? { color: "#FF6C00" }
-                            : { color: "#BDBDBD" },
-                        ]}
-                      />
-                      <Text>{commentsQuantity ? commentsQuantity : "0"}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.info}
-                      onPress={() => navigation.navigate("Карта", {
-                        photo,
-                        namePost,
-                        location,
-                      })}
-                    >
-                      <Feather name="map-pin" size={24} color="#BDBDBD" />
-                      <Text style={[{ ...styles.text, ...styles.locationText }]}>
-                        {convertedCoordinate}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                
-              );
-            }}
-          />
-      //   </View>
-      // );
-            // </View>
+                );
+              }}
+            />
           )}
         </View>
       </ImageBackground>
     </View>
   );
-}
+};
 const styles = StyleSheet.create({
-  // Avoiding: {
-  //   flex: 1,
-  // },
   logAut: {
     position: "absolute",
     transform: [{ translateX: 220 }, { translateY: -40 }],
@@ -153,7 +149,6 @@ const styles = StyleSheet.create({
     height: 25,
     position: "absolute",
     top: "10%",
-
     transform: [{ translateX: 107 }, { translateY: -40 }],
   },
 
@@ -168,7 +163,6 @@ const styles = StyleSheet.create({
     transform: [{ translateX: 140 }, { translateY: -60 }],
   },
   containerForm: {
-    // alignItems: "center",
     width: "100%",
     height: "80%",
     paddingLeft: 15,
@@ -213,7 +207,7 @@ const styles = StyleSheet.create({
   textComment: {
     fontFamily: "Inter-Black",
     fontSize: 16,
-    color: '#BDBDBD',
+    color: "#BDBDBD",
   },
   info: {
     flexDirection: "row",
@@ -222,7 +216,7 @@ const styles = StyleSheet.create({
   },
   locationText: {
     fontFamily: "Inter-Black",
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
   },
   text: {
     fontSize: 16,
@@ -234,6 +228,5 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     marginTop: 20,
-  }
+  },
 });
-

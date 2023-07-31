@@ -23,19 +23,18 @@ export const Router = (isAuth) => {
           name="Login"
           component={LoginScreen}
         />
-        
       </MainStack.Navigator>
     );
   }
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
-          options={{ headerShown: false }}
-          name="Home"
-          component={Home}
-        />
-        <HomeStack.Screen name="Карта" component={MapScreen} />
-        <HomeStack.Screen name="Коментарі" component={CommentsScreen} />
+        options={{ headerShown: false }}
+        name="Home"
+        component={Home}
+      />
+      <HomeStack.Screen name="Карта" component={MapScreen} />
+      <HomeStack.Screen name="Коментарі" component={CommentsScreen} />
     </HomeStack.Navigator>
   );
 };
