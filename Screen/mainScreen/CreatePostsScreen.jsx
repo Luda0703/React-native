@@ -30,8 +30,7 @@ export const CreatePostsScreen = ({ navigation }) => {
   // console.log(userId, login)
 
 
-  const createSetPost = async () => {
-
+const createSetPost = async () => {
 await addDoc(collection(db, `setPost`), {
   userId,
   login,
@@ -39,8 +38,7 @@ await addDoc(collection(db, `setPost`), {
   location,
    namePost,
   convertedCoordinate,
-  createdDate,
-  
+  // createdDate,
 });
   }
 
@@ -69,12 +67,12 @@ await addDoc(collection(db, `setPost`), {
 
   const sendPhoto = async () => {
     navigation.navigate("Публікації", 
-    // {
-    //   photo,
-    //   location,
-    //   namePost,
-    //   convertedCoordinate,
-    // }
+    {
+      photo,
+      location,
+      namePost,
+      convertedCoordinate,
+    }
     );
     createSetPost();
     setPhoto(null);

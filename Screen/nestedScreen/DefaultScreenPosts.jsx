@@ -15,13 +15,13 @@ import { collection, query, where, getDocs, orderBy, onSnapshot } from "firebase
 
 export const DefaultScreenPosts = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
-  console.log('posts', posts)
+  // console.log('posts', posts)
 
   const { login, userId, email } = useSelector((state) => state.auth);
   // console.log("userId", userId)
 
 const getDataFromFirestore = async () => {
-      const q = query(collection(db, "setPost"),  where("userId", "==", userId));
+      const q = query(collection(db, `setPost`),  where("userId", "==", userId));
 
       onSnapshot(q, (data) => {
         setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));

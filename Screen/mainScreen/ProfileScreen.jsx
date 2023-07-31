@@ -7,6 +7,7 @@ import {
   Image,
   FlatList,
   ImageBackground,
+ 
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
@@ -23,7 +24,7 @@ export const ProfileScreen = ({ route, navigation }) => {
   console.log("userId", login, userId)
 
   const getDataFromFirestore = async () => {
-    const q = query(collection(db, "setPost"), where("userId", "==", userId));
+    const q = query(collection(db, `setPost`), where("userId", "==", userId));
 
     onSnapshot(q, (data) => {
       setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
@@ -65,8 +66,15 @@ useEffect(() => {
         source={require("../image/photoApp.png")}>
         <View style={styles.containerForm}>
           <View style={styles.avatarImg}>
-            <View style={styles.avatar}></View>
+            {/* <View style={styles.avatar}></View> */}
+            <Image 
+              source={{
+                uri: "https://images.squarespace-cdn.com/content/v1/58d1b3ff1b631bb1893d108d/813f4928-6cc6-4bc8-a4e4-265f94b4d665/matthew-hamilton-tNCH0sKSZbA-unsplash.jpg",
+              }}
+              // source={{ uri: photo }} 
+              style={styles.avatar} />
             <View>
+            
               <ImageUser style={styles.addSvg}></ImageUser>
               <Feather
                 name="log-out"
@@ -185,13 +193,14 @@ const styles = StyleSheet.create({
   },
   avatarImg: {
     position: "relative",
-    transform: [{ translateX: 0 }, { translateY: -60 }],
+    transform: [{ translateX: 140 }, { translateY: -60 }],
   },
   containerForm: {
-    alignItems: "center",
+    // alignItems: "center",
     width: "100%",
     height: "80%",
-
+    paddingLeft: 15,
+    paddingRight: 15,
     backgroundColor: "#fff",
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
@@ -208,6 +217,10 @@ const styles = StyleSheet.create({
     width: " 100%",
     justifyContent: "center",
     alignItems: "center",
+    // padding: 10,
+    // width: '100%',
+    // height: "100%",
+    // backgroundColor: "#ffffff",
   },
   userNameContainer: {
     justifyContent: "center",
@@ -216,10 +229,11 @@ const styles = StyleSheet.create({
   userText: {
     color: "#212121",
     fontSize: 30,
+    marginBottom: 10,
   },
-  subContainer: {
-    marginBottom: 32,
-  },
+  // subContainer: {
+  //   marginBottom: 32,
+  // },
   image: {
     height: 240,
     borderRadius: 8,
@@ -246,5 +260,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#212121",
   },
+  infoThumb: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  imageContainer: {
+    marginTop: 20,
+  }
 });
 

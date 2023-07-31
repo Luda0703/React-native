@@ -63,7 +63,7 @@ export const CommentsScreen = ({ route, navigation }) => {
   };
   const getAllComments = async () => {
     const commentsQuery = query(
-      collection(db, "setPost", postId, "setComents"),
+      collection(db, `setPost`, postId, "setComents"),
       orderBy("dataPost")
     );
     onSnapshot(commentsQuery, (data) => {
